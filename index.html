@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automotive Bulb Finder (2000–2025) • Complete Reference Guide</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Custom scrollbar and print optimizations */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.55);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.12); }
+    }
+    .bulb-node-active {
+      animation: pulseGlow 1.6s infinite ease-in-out;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #000000 !important; }
+      .print-full { overflow: visible !important; max-height: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200">
+
+  <!-- Toast Notification Banner (No alert() used) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Top Navigation & Header -->
+  <header class="sticky top-0 z-30 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand Identity -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-orange-500 to-sky-600 p-0.5 shadow-md shadow-amber-500/15 flex-shrink-0">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <!-- Inline SVG Headlight / Bulb Icon -->
+            <svg class="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18h6" />
+              <path d="M10 22h4" />
+              <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
+              <path d="M12 2v1" />
+              <path d="M4.22 4.22l.71.71" />
+              <path d="M19.78 4.22l-.71.71" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Automotive Bulb Finder <span class="text-amber-500 dark:text-amber-400">(2000–2025)</span>
+            </h1>
+            <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+              v1.0 Complete
+            </span>
+          </div>
+          <p id="header-subtitle" class="text-xs text-slate-500 dark:text-slate-400">
+            220 Vehicle Generations • 8 Brands • GCC, US, Europe &amp; Global Specs
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls -->
+      <div class="flex items-center gap-2 no-print flex-wrap">
+        <button id="btn-legend" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-sky-500/10 hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/25 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Bulb Cross-Ref</span>
+        </button>
+
+        <!-- <button id="btn-export-csv" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span class="hidden sm:inline">Export CSV</span>
+        </button> -->
+
+        <!-- <button id="btn-print" type="button" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span>Print</span>
+        </button> -->
+
+        <button id="btn-reset-all" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/25 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          <span>Reset</span>
+        </button>
+
+        <button id="btn-theme-toggle" type="button" aria-label="Toggle Light/Dark Mode" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition">
+          <!-- Sun icon (shown in dark mode) -->
+          <svg id="icon-sun" class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg id="icon-moon" class="w-4 h-4 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Hero Vehicle Selector & Search Panel -->
+    <section class="no-print rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-4 sm:p-6 space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            Quick Vehicle &amp; Bulb Lookup
+          </h2>
+        </div>
+        <div id="active-filter-summary" class="text-xs font-medium text-slate-500 dark:text-slate-400">
+          Showing all 220 vehicle generations
+        </div>
+      </div>
+
+      <!-- Cascading Dropdowns + Instant Search Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5">
+        <!-- Brand Select -->
+        <div class="lg:col-span-3">
+          <label for="select-brand" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">1. Brand / Make</label>
+          <select id="select-brand" class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 px-3.5 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/60 focus:border-amber-500 transition">
+            <option value="">All Brands (220)</option>
+          </select>
+        </div>
+
+        <!-- Model Select -->
+        <div class="lg:col-span-3">
+          <label for="select-model" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">2. Vehicle Model</label>
+          <select id="select-model" class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 px-3.5 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/60 focus:border-amber-500 transition">
+            <option value="">All Models</option>
+          </select>
+        </div>
+
+        <!-- Model Year Select -->
+        <div class="lg:col-span-2">
+          <label for="select-year" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">3. Model Year</label>
+          <select id="select-year" class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 px-3.5 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/60 focus:border-amber-500 transition">
+            <option value="">Any Year (2000–2025)</option>
+          </select>
+        </div>
+
+        <!-- Keyword / Bulb Code Search -->
+        <div class="lg:col-span-4">
+          <label for="input-search" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">4. Search Bulb Code, Model or Market</label>
+          <div class="relative">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input id="input-search" type="text" placeholder="e.g., H11, 9005, D4S, 7443, Camry, GCC, LED..." class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 pl-10 pr-9 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/60 focus:border-sky-500 transition" />
+            <button id="btn-clear-search" type="button" title="Clear search" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Market & Lighting Technology Filter Pills -->
+      <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Market Pills -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-1">Market:</span>
+          <button type="button" data-market="ALL" class="market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-amber-500 text-slate-950 shadow-sm">All Markets</button>
+          <button type="button" data-market="GCC" class="market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">GCC / Middle East</button>
+          <button type="button" data-market="US" class="market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">US / North America</button>
+          <button type="button" data-market="EUROPE" class="market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Europe</button>
+          <button type="button" data-market="ASIA" class="market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Asia / Korea / China</button>
+        </div>
+
+        <!-- Bulb Tech Pills -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-1">Tech:</span>
+          <button type="button" data-tech="ALL" class="tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-sky-600 text-white shadow-sm">All Bulbs</button>
+          <button type="button" data-tech="HALOGEN" class="tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Halogen / Replaceable</button>
+          <button type="button" data-tech="LED" class="tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Factory LED</button>
+          <button type="button" data-tech="HID" class="tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">HID / Xenon</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Vehicle Bulb Diagram / Spotlight Card -->
+    <section id="spotlight-section" class="rounded-2xl bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden transition-all">
+      <div class="px-5 py-4 border-b border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-900/70">
+        <div class="flex items-center gap-3">
+          <span id="spotlight-brand-badge" class="px-2.5 py-1 rounded-lg text-xs font-extrabold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30">
+            TOYOTA
+          </span>
+          <div>
+            <h2 id="spotlight-title" class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              Camry (2018–2024)
+            </h2>
+            <p id="spotlight-subtitle" class="text-xs text-slate-500 dark:text-slate-400">
+              Markets: US, GCC, Global • Click any light node on the vehicle diagram or card to inspect &amp; copy
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 no-print">
+          <button id="btn-copy-all-specs" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy All 8 Bulbs</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- Left: Interactive Top-Down Vector Vehicle Diagram -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center bg-slate-100/80 dark:bg-slate-950/70 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800/80 relative">
+          <div class="w-full flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1 px-1">
+            <span>Front Bumper</span>
+            <span class="text-sky-500">Interactive Diagram</span>
+            <span>Rear Bumper</span>
+          </div>
+
+          <!-- Top-Down Car Silhouette SVG with 8 Clickable Bulb Nodes -->
+          <svg id="car-diagram-svg" viewBox="0 0 420 210" class="w-full max-w-[420px] h-auto select-none" role="img" aria-label="Interactive vehicle lighting position diagram">
+            <defs>
+              <radialGradient id="headlightBeam" cx="0%" cy="50%" r="100%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="taillightBeam" cx="100%" cy="50%" r="100%">
+                <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.32" />
+                <stop offset="100%" stop-color="#f43f5e" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <!-- Light projection cones -->
+            <polygon points="62,58 8,32 8,84" fill="url(#headlightBeam)" />
+            <polygon points="62,152 8,126 8,178" fill="url(#headlightBeam)" />
+            <polygon points="358,58 412,36 412,80" fill="url(#taillightBeam)" />
+            <polygon points="358,152 412,130 412,174" fill="url(#taillightBeam)" />
+
+            <!-- Tires -->
+            <rect x="92" y="34" width="44" height="10" rx="4" fill="#334155" />
+            <rect x="92" y="166" width="44" height="10" rx="4" fill="#334155" />
+            <rect x="282" y="34" width="44" height="10" rx="4" fill="#334155" />
+            <rect x="282" y="166" width="44" height="10" rx="4" fill="#334155" />
+
+            <!-- Car Chassis Body (Facing Left = Front) -->
+            <path d="M 66,62 C 66,47 84,42 115,42 L 305,42 C 338,42 356,48 356,64 L 356,146 C 356,162 338,168 305,168 L 115,168 C 84,168 66,163 66,148 Z"
+                  class="fill-slate-200 dark:fill-slate-800 stroke-slate-400 dark:stroke-slate-600" stroke-width="2.5" />
+
+            <!-- Hood Contour -->
+            <path d="M 76,66 Q 112,58 145,62 L 145,148 Q 112,152 76,144 Z"
+                  class="fill-slate-300/60 dark:fill-slate-900/60 stroke-slate-400/50 dark:stroke-slate-700" stroke-width="1.2" />
+
+            <!-- Windshield -->
+            <path d="M 145,56 L 178,63 L 178,147 L 145,154 Z"
+                  class="fill-sky-900/30 dark:fill-sky-950/80 stroke-sky-500/40" stroke-width="1.5" />
+
+            <!-- Roof Panel -->
+            <rect x="182" y="64" width="102" height="82" rx="12"
+                  class="fill-slate-100 dark:fill-slate-800/90 stroke-slate-300 dark:stroke-slate-700" stroke-width="1.5" />
+
+            <!-- Rear Window -->
+            <path d="M 288,63 L 320,56 L 320,154 L 288,147 Z"
+                  class="fill-sky-900/30 dark:fill-sky-950/80 stroke-sky-500/40" stroke-width="1.5" />
+
+            <!-- Side Mirrors -->
+            <path d="M 152,42 L 146,28 L 158,28 L 160,42 Z" class="fill-slate-300 dark:fill-slate-700 stroke-slate-400 dark:stroke-slate-600" stroke-width="1.2" />
+            <path d="M 152,168 L 146,182 L 158,182 L 160,168 Z" class="fill-slate-300 dark:fill-slate-700 stroke-slate-400 dark:stroke-slate-600" stroke-width="1.2" />
+
+            <!-- 8 Interactive Bulb Position Hotspots -->
+            <!-- 1. Low Beam (Front Outer Left/Right) -->
+            <g class="car-hotspot cursor-pointer" data-pos="Low_Beam">
+              <circle cx="72" cy="56" r="10" class="fill-sky-500/30 stroke-sky-400" stroke-width="1.5" />
+              <circle cx="72" cy="56" r="5" class="fill-sky-400" />
+              <circle cx="72" cy="154" r="10" class="fill-sky-500/30 stroke-sky-400" stroke-width="1.5" />
+              <circle cx="72" cy="154" r="5" class="fill-sky-400" />
+              <text x="72" y="22" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px] font-bold">LOW BEAM</text>
+            </g>
+
+            <!-- 2. High Beam (Front Inner) -->
+            <g class="car-hotspot cursor-pointer" data-pos="High_Beam">
+              <circle cx="74" cy="76" r="9" class="fill-indigo-500/30 stroke-indigo-400" stroke-width="1.5" />
+              <circle cx="74" cy="76" r="4.5" class="fill-indigo-400" />
+              <circle cx="74" cy="134" r="9" class="fill-indigo-500/30 stroke-indigo-400" stroke-width="1.5" />
+              <circle cx="74" cy="134" r="4.5" class="fill-indigo-400" />
+              <text x="115" y="108" text-anchor="middle" class="fill-indigo-600 dark:fill-indigo-300 text-[9px] font-bold">HIGH BEAM</text>
+            </g>
+
+            <!-- 3. Fog Light (Front Lower Bumper) -->
+            <g class="car-hotspot cursor-pointer" data-pos="Fog_Light">
+              <circle cx="62" cy="92" r="8" class="fill-amber-500/30 stroke-amber-400" stroke-width="1.5" />
+              <circle cx="62" cy="92" r="4" class="fill-amber-400" />
+              <circle cx="62" cy="118" r="8" class="fill-amber-500/30 stroke-amber-400" stroke-width="1.5" />
+              <circle cx="62" cy="118" r="4" class="fill-amber-400" />
+              <text x="30" y="108" text-anchor="middle" class="fill-amber-600 dark:fill-amber-400 text-[9px] font-bold">FOG</text>
+            </g>
+
+            <!-- 4. Front Turn Signal -->
+            <g class="car-hotspot cursor-pointer" data-pos="Front_Turn_Signal">
+              <circle cx="88" cy="48" r="8.5" class="fill-orange-500/30 stroke-orange-400" stroke-width="1.5" />
+              <circle cx="88" cy="48" r="4" class="fill-orange-400" />
+              <circle cx="88" cy="162" r="8.5" class="fill-orange-500/30 stroke-orange-400" stroke-width="1.5" />
+              <circle cx="88" cy="162" r="4" class="fill-orange-400" />
+              <text x="108" y="196" text-anchor="middle" class="fill-orange-600 dark:fill-orange-400 text-[9px] font-bold">FRONT TURN</text>
+            </g>
+
+            <!-- 5. Rear Turn Signal -->
+            <g class="car-hotspot cursor-pointer" data-pos="Rear_Turn_Signal">
+              <circle cx="336" cy="48" r="8.5" class="fill-orange-500/30 stroke-orange-400" stroke-width="1.5" />
+              <circle cx="336" cy="48" r="4" class="fill-orange-400" />
+              <circle cx="336" cy="162" r="8.5" class="fill-orange-500/30 stroke-orange-400" stroke-width="1.5" />
+              <circle cx="336" cy="162" r="4" class="fill-orange-400" />
+              <text x="315" y="196" text-anchor="middle" class="fill-orange-600 dark:fill-orange-400 text-[9px] font-bold">REAR TURN</text>
+            </g>
+
+            <!-- 6. Brake / Tail Light -->
+            <g class="car-hotspot cursor-pointer" data-pos="Brake_Tail_Light">
+              <circle cx="348" cy="62" r="10" class="fill-rose-500/35 stroke-rose-400" stroke-width="1.5" />
+              <circle cx="348" cy="62" r="5" class="fill-rose-500" />
+              <circle cx="348" cy="148" r="10" class="fill-rose-500/35 stroke-rose-400" stroke-width="1.5" />
+              <circle cx="348" cy="148" r="5" class="fill-rose-500" />
+              <text x="348" y="22" text-anchor="middle" class="fill-rose-600 dark:fill-rose-400 text-[9px] font-bold">BRAKE / TAIL</text>
+            </g>
+
+            <!-- 7. Reverse Light -->
+            <g class="car-hotspot cursor-pointer" data-pos="Reverse_Light">
+              <circle cx="346" cy="84" r="8.5" class="fill-slate-100/60 stroke-slate-300" stroke-width="1.5" />
+              <circle cx="346" cy="84" r="4" class="fill-white" />
+              <circle cx="346" cy="126" r="8.5" class="fill-slate-100/60 stroke-slate-300" stroke-width="1.5" />
+              <circle cx="346" cy="126" r="4" class="fill-white" />
+              <text x="312" y="108" text-anchor="middle" class="fill-slate-600 dark:fill-slate-200 text-[9px] font-bold">REVERSE</text>
+            </g>
+
+            <!-- 8. License Plate -->
+            <g class="car-hotspot cursor-pointer" data-pos="License_Plate">
+              <rect x="352" y="96" width="10" height="18" rx="3" class="fill-emerald-500/35 stroke-emerald-400" stroke-width="1.5" />
+              <circle cx="357" cy="105" r="3.5" class="fill-emerald-400" />
+              <text x="392" y="108" text-anchor="middle" class="fill-emerald-600 dark:fill-emerald-400 text-[9px] font-bold">PLATE</text>
+            </g>
+          </svg>
+
+          <!-- Selected Position Explanation Callout -->
+          <div id="spotlight-pos-callout" class="mt-2 w-full rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span id="callout-pos-label" class="text-xs font-bold text-slate-900 dark:text-white">Low Beam Headlight</span>
+                <span id="callout-tech-badge" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-500/15 text-sky-600 dark:text-sky-300">LED / Halogen</span>
+              </div>
+              <p id="callout-bulb-code" class="text-sm font-mono font-bold text-amber-600 dark:text-amber-400 truncate mt-0.5">H11 / LED</p>
+              <p id="callout-tech-note" class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Click any bulb card on the right to inspect &amp; copy.</p>
+            </div>
+            <button id="btn-copy-selected-bulb" type="button" class="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 hover:opacity-90 transition">
+              Copy Spec
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: 2x4 Interactive Bulb Position Cards -->
+        <div id="spotlight-grid" class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Dynamically populated 8 position cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- View Controls & Results Toolbar -->
+    <section class="flex flex-wrap items-center justify-between gap-3 pt-1">
+      <div class="flex items-center gap-2">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Vehicle Database</h3>
+        <span id="results-count-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/25">
+          220 matches
+        </span>
+      </div>
+
+      <div class="no-print flex flex-wrap items-center gap-2">
+        <!-- Sort Dropdown -->
+        <select id="select-sort" aria-label="Sort vehicles" class="rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/50">
+          <option value="default">Sort: Default Order</option>
+          <option value="brand_asc">Brand (A → Z)</option>
+          <option value="model_asc">Model (A → Z)</option>
+          <option value="year_desc">Newest First (End Year ↓)</option>
+          <option value="year_asc">Oldest First (Start Year ↑)</option>
+        </select>
+
+        <!-- View Mode Switcher -->
+        <div class="inline-flex rounded-xl bg-slate-200/80 dark:bg-slate-800 p-1 border border-slate-300/60 dark:border-slate-700">
+          <button id="btn-view-cards" type="button" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-950 text-slate-900 dark:text-white shadow-sm transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            <span>Cards</span>
+          </button>
+          <button id="btn-view-table" type="button" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span>Full Table</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards Grid View Container -->
+    <section id="cards-view-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <!-- Vehicle cards rendered here -->
+    </section>
+
+    <!-- Full Comparison Table View Container -->
+    <section id="table-view-container" class="hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+      <div class="overflow-x-auto max-h-[680px] print-full">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead class="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 uppercase tracking-wider text-[11px]">
+            <tr>
+              <th class="py-3 px-3 font-bold cursor-pointer hover:text-amber-500 whitespace-nowrap" data-col="Brand">Brand</th>
+              <th class="py-3 px-3 font-bold cursor-pointer hover:text-amber-500 whitespace-nowrap" data-col="Model">Model</th>
+              <th class="py-3 px-3 font-bold cursor-pointer hover:text-amber-500 whitespace-nowrap" data-col="Start_Year">Years</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Markets</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Low Beam</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">High Beam</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Fog Light</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Front Turn</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Rear Turn</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Brake / Tail</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Reverse</th>
+              <th class="py-3 px-3 font-bold whitespace-nowrap">Plate</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-slate-100 dark:divide-slate-800/80">
+            <!-- Table rows rendered here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-10 text-center space-y-3">
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-500 mx-auto flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3 class="text-base font-bold text-slate-900 dark:text-white">No matching vehicles or bulb specs found</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+        Try clearing your search keyword, selecting "All Markets", or resetting the year filter.
+      </p>
+      <button id="btn-empty-reset" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 hover:bg-amber-400 transition">
+        Reset All Filters
+      </button>
+    </div>
+
+    <!-- Pagination / Show All Bar -->
+    <div id="pagination-bar" class="no-print flex flex-wrap items-center justify-between gap-3 pt-2">
+      <p id="pagination-info" class="text-xs text-slate-500 dark:text-slate-400">
+        Showing 1–36 of 220 vehicles
+      </p>
+      <div class="flex items-center gap-2">
+        <button id="btn-load-more" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 transition">
+          Load More (+36)
+        </button>
+        <button id="btn-show-all" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-sky-500/15 hover:bg-sky-500/25 text-sky-700 dark:text-sky-300 border border-sky-500/30 transition">
+          Show All 220
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 mt-10 py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+      <p>Automotive Bulb Size Finder (2000–2025) • Nur Hossain Sakil</p>
+      <p>Note: Always verify trim-level Halogen vs. Factory Sealed LED assemblies prior to ordering replacement bulbs.</p>
+    </div>
+  </footer>
+
+  <!-- Bulb Code Legend & Cross-Reference Modal -->
+  <div id="legend-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto shadow-2xl p-6 space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div>
+          <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Bulb Socket Cross-Reference &amp; Legend</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">US ANSI / SAE vs. ECE / European &amp; Japanese Equivalents</p>
+        </div>
+        <button id="btn-close-legend" type="button" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Color Badge Guide -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+        <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/25">
+          <span class="font-bold text-amber-700 dark:text-amber-300 block mb-1">Halogen / Standard Incandescent</span>
+          <p class="text-slate-600 dark:text-slate-400">Replaceable plug-and-play bulbs (e.g., H11, 9005, 7443, 194). Compatible with aftermarket LED upgrades.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-sky-500/10 border border-sky-500/25">
+          <span class="font-bold text-sky-700 dark:text-sky-300 block mb-1">Factory LED / Integrated</span>
+          <p class="text-slate-600 dark:text-slate-400">OEM sealed LED module or board. No removable halogen bulb unless lower trim uses halogen.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-violet-500/10 border border-violet-500/25">
+          <span class="font-bold text-violet-700 dark:text-violet-300 block mb-1">HID / Xenon Discharge</span>
+          <p class="text-slate-600 dark:text-slate-400">High-voltage ballast capsules (D1S, D2S, D2R, D3S, D4S, D4R, D5S, D8S). Replace with exact D-series base.</p>
+        </div>
+      </div>
+
+      <!-- Cross-Reference Table -->
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold">
+            <tr>
+              <th class="py-2.5 px-3">Primary Code</th>
+              <th class="py-2.5 px-3">Direct / ECE Equivalent</th>
+              <th class="py-2.5 px-3">Common Application</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">9005</td><td class="py-2 px-3 font-mono">HB3</td><td class="py-2 px-3">High Beam / Projector Low Beam</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">9006</td><td class="py-2 px-3 font-mono">HB4</td><td class="py-2 px-3">Low Beam / Fog Light</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">9003 / H4</td><td class="py-2 px-3 font-mono">HB2 / P43t</td><td class="py-2 px-3">Dual-Filament High/Low Headlight</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">H13</td><td class="py-2 px-3 font-mono">9008</td><td class="py-2 px-3">Ford / US Dual-Filament Headlight</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">9012</td><td class="py-2 px-3 font-mono">HIR2</td><td class="py-2 px-3">Single-Projector Bi-Halogen High/Low</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">194 / 168</td><td class="py-2 px-3 font-mono">W5W / T10 / 2825</td><td class="py-2 px-3">License Plate, Parking &amp; Sidemarker</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">1156 / 7506</td><td class="py-2 px-3 font-mono">P21W / PY21W (Amber)</td><td class="py-2 px-3">Single-Filament Turn Signal / Reverse</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">1157 / 7528</td><td class="py-2 px-3 font-mono">P21/5W</td><td class="py-2 px-3">Dual-Filament Brake &amp; Tail Light</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">921 / 912</td><td class="py-2 px-3 font-mono">W16W / T15</td><td class="py-2 px-3">High-Output Reverse / Cargo Light</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">7440 / 7443</td><td class="py-2 px-3 font-mono">W21W / W21/5W</td><td class="py-2 px-3">Japanese &amp; Korean Wedge Signal / Brake</td></tr>
+            <tr><td class="py-2 px-3 font-mono font-bold text-amber-600 dark:text-amber-400">3156 / 3157</td><td class="py-2 px-3 font-mono">P27W / P27/7W</td><td class="py-2 px-3">US Domestic Plastic-Base Signal / Brake</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-xs text-slate-600 dark:text-slate-300">
+        <strong>Fitment Tip:</strong> Many 2015–2025 vehicles offer base trims with replaceable halogen bulbs (e.g., <code class="font-mono">H11 / LED</code>) and upper trims with factory sealed LED headlamps. Check the rear dust cap of your headlight housing before purchasing.
+      </div>
+    </div>
+  </div>
+
+  <!-- Embedded Complete 220-Record Dataset & Application Logic -->
+  <script>
+    /**
+     * Complete 220-Record Automotive Bulb Dataset (2000–2025)
+     * Exact fields: Brand, Model, Generation_Years, Start_Year, End_Year, Markets,
+     * Low_Beam, High_Beam, Fog_Light, Front_Turn_Signal, Rear_Turn_Signal,
+     * Brake_Tail_Light, Reverse_Light, License_Plate
+     */
+    const BULB_DATA = [
+      // ==================== TOYOTA (66 rows) ====================
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2000–2001", Start_Year: 2000, End_Year: 2001, Markets: "US, GCC, Global", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "H3 / 9006", Front_Turn_Signal: "1157A / 7440A", Rear_Turn_Signal: "1156 / 7440", Brake_Tail_Light: "7443 / 1157", Reverse_Light: "921 / 7440", License_Plate: "194 / 168" },
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2002–2006", Start_Year: 2002, End_Year: 2006, Markets: "US, GCC, Global", Low_Beam: "9006 (H7 EU)", High_Beam: "9005 (H1 EU)", Fog_Light: "9006 / H3", Front_Turn_Signal: "1157A / WY21W", Rear_Turn_Signal: "7440 / 3157", Brake_Tail_Light: "7443 / 3157", Reverse_Light: "921", License_Plate: "194 / 168" },
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2007–2011", Start_Year: 2007, End_Year: 2011, Markets: "US, GCC, Global", Low_Beam: "H11 (D4S Hybrid)", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "3157A / 7440A", Rear_Turn_Signal: "7440A / 921", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2012–2014", Start_Year: 2012, End_Year: 2014, Markets: "US, GCC, Global", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "7444NA / 7440A", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2015–2017", Start_Year: 2015, End_Year: 2017, Markets: "US, GCC, Global", Low_Beam: "H11 (LED opt.)", High_Beam: "9005 (LED opt.)", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA / WY21W", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2018–2024", Start_Year: 2018, End_Year: 2024, Markets: "US, GCC, Global", Low_Beam: "LED (Bi-LED)", High_Beam: "LED (Bi-LED)", Fog_Light: "LED / H16", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Camry", Generation_Years: "2025–2025", Start_Year: 2025, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Corolla", Generation_Years: "2000–2002", Start_Year: 2000, End_Year: 2002, Markets: "US, GCC, Europe", Low_Beam: "9006 (H4 EU)", High_Beam: "9005 (H4 EU)", Fog_Light: "9006 / H3", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "7440 / P21W", Brake_Tail_Light: "7443 / P21/5W", Reverse_Light: "921 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "Corolla", Generation_Years: "2003–2008", Start_Year: 2003, End_Year: 2008, Markets: "US, GCC, Europe", Low_Beam: "9006 (H7 EU)", High_Beam: "9005 (H7 EU)", Fog_Light: "9006 / HB4", Front_Turn_Signal: "3157A / WY21W", Rear_Turn_Signal: "7440 / PY21W", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "Corolla", Generation_Years: "2009–2013", Start_Year: 2009, End_Year: 2013, Markets: "US, GCC, Europe", Low_Beam: "9006 (H11 EU)", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "3157A / WY21W", Rear_Turn_Signal: "7440A / WY21W", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "Corolla", Generation_Years: "2014–2019", Start_Year: 2014, End_Year: 2019, Markets: "US, GCC, Europe", Low_Beam: "LED / H11 (9012 EU)", High_Beam: "9005 / LED", Fog_Light: "H16 / H11", Front_Turn_Signal: "7444NA / WY21W", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "Corolla", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (9012 base)", High_Beam: "LED (9012 base)", Fog_Light: "LED / H16", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Corolla Cross", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC, Asia", Low_Beam: "LED / 9012", High_Beam: "LED / 9012", Fog_Light: "LED / H16", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "WY21W / LED", Brake_Tail_Light: "LED / 7443", Reverse_Light: "W16W (921)", License_Plate: "W5W (168) / LED" },
+      { Brand: "Toyota", Model: "Yaris / Vitz", Generation_Years: "2000–2005", Start_Year: 2000, End_Year: 2005, Markets: "Europe, GCC, Asia", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "H3 / HB4", Front_Turn_Signal: "PY21W (1156A)", Rear_Turn_Signal: "PY21W (1156A)", Brake_Tail_Light: "P21/5W (1157)", Reverse_Light: "P21W (1156)", License_Plate: "W5W (168)" },
+      { Brand: "Toyota", Model: "Yaris", Generation_Years: "2006–2013", Start_Year: 2006, End_Year: 2013, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "H11", Front_Turn_Signal: "7440A / PY21W", Rear_Turn_Signal: "7440A / PY21W", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "Yaris", Generation_Years: "2014–2020", Start_Year: 2014, End_Year: 2020, Markets: "US, GCC, Europe", Low_Beam: "9012 / H4", High_Beam: "9012 / H4", Fog_Light: "H16 / H11", Front_Turn_Signal: "7444NA / WY21W", Rear_Turn_Signal: "7440A / WY21W", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "Yaris", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "GCC, Asia, Europe", Low_Beam: "LED / H4", High_Beam: "LED / H4", Fog_Light: "LED / H16", Front_Turn_Signal: "WY21W / LED", Rear_Turn_Signal: "WY21W / LED", Brake_Tail_Light: "LED / 7443", Reverse_Light: "W16W (921)", License_Plate: "W5W / LED" },
+      { Brand: "Toyota", Model: "Avalon", Generation_Years: "2000–2004", Start_Year: 2000, End_Year: 2004, Markets: "US, GCC", Low_Beam: "9006 (D2R HID)", High_Beam: "9005", Fog_Light: "9006 / H3", Front_Turn_Signal: "1157A / 7440A", Rear_Turn_Signal: "7440", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Avalon", Generation_Years: "2005–2012", Start_Year: 2005, End_Year: 2012, Markets: "US, GCC", Low_Beam: "H11 (D4S HID)", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "3157A / 7440A", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Avalon", Generation_Years: "2013–2018", Start_Year: 2013, End_Year: 2018, Markets: "US, GCC", Low_Beam: "9012 (D4S / LED)", High_Beam: "9005 / LED", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Avalon", Generation_Years: "2019–2022", Start_Year: 2019, End_Year: 2022, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Prius", Generation_Years: "2001–2003", Start_Year: 2001, End_Year: 2003, Markets: "US, Europe, Japan", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006", Front_Turn_Signal: "7440A", Rear_Turn_Signal: "7440", Brake_Tail_Light: "7443", Reverse_Light: "7440", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Prius", Generation_Years: "2004–2009", Start_Year: 2004, End_Year: 2009, Markets: "US, Europe, Japan", Low_Beam: "H4 (D2R / D4R HID)", High_Beam: "H4 (D2R / D4R HID)", Fog_Light: "9006", Front_Turn_Signal: "7440A / WY21W", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "7440", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Prius", Generation_Years: "2010–2015", Start_Year: 2010, End_Year: 2015, Markets: "US, Europe, GCC", Low_Beam: "H11 / LED", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "7440A / WY21W", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED", Reverse_Light: "7440 / 921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Prius", Generation_Years: "2016–2025", Start_Year: 2016, End_Year: 2025, Markets: "US, Europe, Japan", Low_Beam: "LED (Bi-LED)", High_Beam: "LED (Bi-LED)", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Crown", Generation_Years: "2023–2025", Start_Year: 2023, End_Year: 2025, Markets: "US, GCC, Japan", Low_Beam: "LED (Quad/Bi-LED)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "RAV4", Generation_Years: "2001–2005", Start_Year: 2001, End_Year: 2005, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006 / H3", Front_Turn_Signal: "7440A / PY21W", Rear_Turn_Signal: "7440A / PY21W", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "RAV4", Generation_Years: "2006–2012", Start_Year: 2006, End_Year: 2012, Markets: "US, GCC, Europe", Low_Beam: "9006 (H11 EU)", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "7440A / WY21W", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "RAV4", Generation_Years: "2013–2015", Start_Year: 2013, End_Year: 2015, Markets: "US, GCC, Europe", Low_Beam: "9012 (HIR2)", High_Beam: "9012 (HIR2)", Fog_Light: "H16", Front_Turn_Signal: "7444NA / WY21W", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "RAV4", Generation_Years: "2016–2018", Start_Year: 2016, End_Year: 2018, Markets: "US, GCC, Europe", Low_Beam: "9012 / LED", High_Beam: "9012 / LED", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Toyota", Model: "RAV4", Generation_Years: "2019–2025", Start_Year: 2019, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (9012 early base)", High_Beam: "LED (9012 early base)", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Highlander", Generation_Years: "2001–2007", Start_Year: 2001, End_Year: 2007, Markets: "US, GCC, Global", Low_Beam: "9006 (H4 01-03)", High_Beam: "9005 (H4 01-03)", Fog_Light: "9006 / H3", Front_Turn_Signal: "1157A / 7440A", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Highlander", Generation_Years: "2008–2013", Start_Year: 2008, End_Year: 2013, Markets: "US, GCC, Global", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "7444NA / 3157A", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Highlander", Generation_Years: "2014–2019", Start_Year: 2014, End_Year: 2019, Markets: "US, GCC, Global", Low_Beam: "H11 / LED", High_Beam: "9005", Fog_Light: "H16 / H11", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Highlander", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "4Runner", Generation_Years: "2000–2002", Start_Year: 2000, End_Year: 2002, Markets: "US, GCC", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006 / H3", Front_Turn_Signal: "1157A", Rear_Turn_Signal: "7440", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "4Runner", Generation_Years: "2003–2009", Start_Year: 2003, End_Year: 2009, Markets: "US, GCC", Low_Beam: "9006 (H11 06-09)", High_Beam: "9005", Fog_Light: "9006 / H11", Front_Turn_Signal: "4157NA / 3157A", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "4Runner", Generation_Years: "2010–2013", Start_Year: 2010, End_Year: 2013, Markets: "US, GCC", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "4Runner", Generation_Years: "2014–2024", Start_Year: 2014, End_Year: 2024, Markets: "US, GCC", Low_Beam: "H11 (LED 21-24)", High_Beam: "9005 (LED 22-24)", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Land Cruiser", Generation_Years: "2000–2007", Start_Year: 2000, End_Year: 2007, Markets: "GCC, US, Global", Low_Beam: "9006 (H4 GCC)", High_Beam: "9005 (H1/H4 GCC)", Fog_Light: "9006 / H3", Front_Turn_Signal: "1157A / WY21W", Rear_Turn_Signal: "7440A / PY21W", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / 7440", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Land Cruiser", Generation_Years: "2008–2015", Start_Year: 2008, End_Year: 2015, Markets: "GCC, US, Global", Low_Beam: "H11 (D4S HID)", High_Beam: "9005", Fog_Light: "H11 / H16", Front_Turn_Signal: "7444NA / WY21W", Rear_Turn_Signal: "7440A / WY21W", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921 / 7440", License_Plate: "168 / LED" },
+      { Brand: "Toyota", Model: "Land Cruiser", Generation_Years: "2016–2021", Start_Year: 2016, End_Year: 2021, Markets: "GCC, US, Global", Low_Beam: "LED (H11 base GCC)", High_Beam: "LED / 9005", Fog_Light: "LED / H16", Front_Turn_Signal: "LED / WY21W", Rear_Turn_Signal: "LED / WY21W", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED / 168" },
+      { Brand: "Toyota", Model: "Land Cruiser", Generation_Years: "2022–2025", Start_Year: 2022, End_Year: 2025, Markets: "GCC, US, Global", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED / WY21W", Rear_Turn_Signal: "LED / WY21W", Brake_Tail_Light: "LED", Reverse_Light: "LED / W16W", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Land Cruiser Prado", Generation_Years: "2003–2009", Start_Year: 2003, End_Year: 2009, Markets: "GCC, Europe, Asia", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006 (HB4)", Front_Turn_Signal: "WY21W (7440A)", Rear_Turn_Signal: "WY21W (7440A)", Brake_Tail_Light: "W21/5W (7443)", Reverse_Light: "W16W (921)", License_Plate: "W5W (168)" },
+      { Brand: "Toyota", Model: "Land Cruiser Prado", Generation_Years: "2010–2023", Start_Year: 2010, End_Year: 2023, Markets: "GCC, Europe, Asia", Low_Beam: "H11 / LED", High_Beam: "9005 (HB3)", Fog_Light: "H11 / H16 / LED", Front_Turn_Signal: "WY21W (7440A)", Rear_Turn_Signal: "WY21W (7440A)", Brake_Tail_Light: "LED / 7443", Reverse_Light: "W16W (921)", License_Plate: "W5W (168) / LED" },
+      { Brand: "Toyota", Model: "Land Cruiser Prado", Generation_Years: "2024–2025", Start_Year: 2024, End_Year: 2025, Markets: "GCC, US, Global", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED / WY21W", Rear_Turn_Signal: "LED / WY21W", Brake_Tail_Light: "LED", Reverse_Light: "LED / W16W", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Fortuner", Generation_Years: "2005–2015", Start_Year: 2005, End_Year: 2015, Markets: "GCC, Asia, Africa", Low_Beam: "H11 (H4 05-11)", High_Beam: "9005 (H4 05-11)", Fog_Light: "9006 / H11", Front_Turn_Signal: "WY21W (7440A)", Rear_Turn_Signal: "WY21W (7440A)", Brake_Tail_Light: "W21/5W (7443)", Reverse_Light: "W16W (921)", License_Plate: "W5W (168)" },
+      { Brand: "Toyota", Model: "Fortuner", Generation_Years: "2016–2025", Start_Year: 2016, End_Year: 2025, Markets: "GCC, Asia, Africa", Low_Beam: "LED (9012 base)", High_Beam: "LED (9012 base)", Fog_Light: "LED / H16", Front_Turn_Signal: "WY21W / LED", Rear_Turn_Signal: "WY21W / LED", Brake_Tail_Light: "LED", Reverse_Light: "W16W (921)", License_Plate: "W5W / LED" },
+      { Brand: "Toyota", Model: "Sequoia", Generation_Years: "2001–2007", Start_Year: 2001, End_Year: 2007, Markets: "US, GCC", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157A / 7440A", Brake_Tail_Light: "3157 / 7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Sequoia", Generation_Years: "2008–2022", Start_Year: 2008, End_Year: 2022, Markets: "US, GCC", Low_Beam: "H11 (LED 18-22)", High_Beam: "9005 (LED 18-22)", Fog_Light: "H11 / H16 / LED", Front_Turn_Signal: "4157NA / 7444NA", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Sequoia", Generation_Years: "2023–2025", Start_Year: 2023, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED / 7444NA", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Tacoma", Generation_Years: "2000–2004", Start_Year: 2000, End_Year: 2004, Markets: "US", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006", Front_Turn_Signal: "1157A / 3157A", Rear_Turn_Signal: "3157A / 7440", Brake_Tail_Light: "3157 / 7443", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Tacoma", Generation_Years: "2005–2015", Start_Year: 2005, End_Year: 2015, Markets: "US", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9145 (H10) / H11", Front_Turn_Signal: "4157NA", Rear_Turn_Signal: "3157A / 7440A", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Tacoma", Generation_Years: "2016–2023", Start_Year: 2016, End_Year: 2023, Markets: "US", Low_Beam: "H11 / LED", High_Beam: "H9 / LED", Fog_Light: "H16 / H11 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Tacoma", Generation_Years: "2024–2025", Start_Year: 2024, End_Year: 2025, Markets: "US", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Tundra", Generation_Years: "2000–2006", Start_Year: 2000, End_Year: 2006, Markets: "US", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157A", Brake_Tail_Light: "3157", Reverse_Light: "921 / 3156", License_Plate: "168 / 194" },
+      { Brand: "Toyota", Model: "Tundra", Generation_Years: "2007–2013", Start_Year: 2007, End_Year: 2013, Markets: "US", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "9145 (H10)", Front_Turn_Signal: "4157NA", Rear_Turn_Signal: "3157A", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Tundra", Generation_Years: "2014–2021", Start_Year: 2014, End_Year: 2021, Markets: "US", Low_Beam: "H4 (LED 18-21)", High_Beam: "H4 (LED 18-21)", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Tundra", Generation_Years: "2022–2025", Start_Year: 2022, End_Year: 2025, Markets: "US", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "Hilux", Generation_Years: "2005–2015", Start_Year: 2005, End_Year: 2015, Markets: "GCC, Europe, Asia", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "9006 / H11", Front_Turn_Signal: "WY21W / PY21W", Rear_Turn_Signal: "WY21W / PY21W", Brake_Tail_Light: "W21/5W / P21/5W", Reverse_Light: "W16W / P21W", License_Plate: "W5W (168)" },
+      { Brand: "Toyota", Model: "Hilux", Generation_Years: "2016–2025", Start_Year: 2016, End_Year: 2025, Markets: "GCC, Europe, Asia", Low_Beam: "LED / H11 (H4 base)", High_Beam: "LED / 9005 (H4 base)", Fog_Light: "LED / H16", Front_Turn_Signal: "WY21W / LED", Rear_Turn_Signal: "WY21W / LED", Brake_Tail_Light: "LED / W21/5W", Reverse_Light: "W16W (921)", License_Plate: "W5W (168)" },
+      { Brand: "Toyota", Model: "Sienna", Generation_Years: "2004–2010", Start_Year: 2004, End_Year: 2010, Markets: "US, GCC", Low_Beam: "9006 (D2R / D4S HID)", High_Beam: "9005", Fog_Light: "9006 / H11", Front_Turn_Signal: "3157A / 7440A", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Sienna", Generation_Years: "2011–2020", Start_Year: 2011, End_Year: 2020, Markets: "US, GCC", Low_Beam: "H11 (D4S HID)", High_Beam: "9005", Fog_Light: "H11 / H16", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "7440A", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "Sienna", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED / 7444NA", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Toyota", Model: "FJ Cruiser", Generation_Years: "2007–2023", Start_Year: 2007, End_Year: 2023, Markets: "US, GCC", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "H11 / 9145", Front_Turn_Signal: "7440A / WY21W", Rear_Turn_Signal: "7440A / WY21W", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Toyota", Model: "C-HR", Generation_Years: "2017–2025", Start_Year: 2017, End_Year: 2025, Markets: "US, Europe, GCC", Low_Beam: "9012 / LED", High_Beam: "9012 / LED", Fog_Light: "H16 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+
+      // ==================== HYUNDAI (29 rows) ====================
+      { Brand: "Hyundai", Model: "Elantra / Avante", Generation_Years: "2001–2006", Start_Year: 2001, End_Year: 2006, Markets: "US, GCC, Global", Low_Beam: "H7", High_Beam: "H1", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157 / P21/5W", Reverse_Light: "1156 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Elantra / Avante", Generation_Years: "2007–2010", Start_Year: 2007, End_Year: 2010, Markets: "US, GCC, Global", Low_Beam: "H11 / H7", High_Beam: "H1", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "1157 / P21/5W", Reverse_Light: "921 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Elantra / Avante", Generation_Years: "2011–2016", Start_Year: 2011, End_Year: 2016, Markets: "US, GCC, Global", Low_Beam: "H11 / H7", High_Beam: "H7 / H1", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "1157 / 2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Elantra / Avante", Generation_Years: "2017–2020", Start_Year: 2017, End_Year: 2020, Markets: "US, GCC, Global", Low_Beam: "H7 / 9005 / LED", High_Beam: "9005 / H7 / LED", Fog_Light: "H8 / 9006 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "7440A / PY21W", Brake_Tail_Light: "7443 / 2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Elantra / Avante", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "9005 (HB3) / LED", High_Beam: "9005 (HB3) / LED", Fog_Light: "N/A", Front_Turn_Signal: "1156A / PY21W / LED", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Sonata", Generation_Years: "2000–2005", Start_Year: 2000, End_Year: 2005, Markets: "US, GCC, Global", Low_Beam: "H7", High_Beam: "H7 / H1", Fog_Light: "881 / H3", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "1156", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Sonata", Generation_Years: "2006–2010", Start_Year: 2006, End_Year: 2010, Markets: "US, GCC, Global", Low_Beam: "H7", High_Beam: "H7", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "2357A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Sonata", Generation_Years: "2011–2014", Start_Year: 2011, End_Year: 2014, Markets: "US, GCC, Global", Low_Beam: "H7 (D1S HID)", High_Beam: "H7", Fog_Light: "H8 / H11", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Sonata", Generation_Years: "2015–2019", Start_Year: 2015, End_Year: 2019, Markets: "US, GCC, Global", Low_Beam: "H7 / D3S / LED", High_Beam: "9005 / H7 / LED", Fog_Light: "H8 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Sonata", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "N/A", Front_Turn_Signal: "LED / PY21W", Rear_Turn_Signal: "PY21W / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Accent / Verna", Generation_Years: "2000–2005", Start_Year: 2000, End_Year: 2005, Markets: "US, GCC, Global", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H3", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157 / P21/5W", Reverse_Light: "1156 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Accent / Verna", Generation_Years: "2006–2011", Start_Year: 2006, End_Year: 2011, Markets: "US, GCC, Global", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "921 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Accent / Verna", Generation_Years: "2012–2017", Start_Year: 2012, End_Year: 2017, Markets: "US, GCC, Global", Low_Beam: "H4 (H7 proj.)", High_Beam: "H4 (H7 proj.)", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / 1157", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Accent / Solaris", Generation_Years: "2018–2025", Start_Year: 2018, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "H4 (9005 proj.) / LED", High_Beam: "H4 (9005 proj.) / LED", Fog_Light: "9006 / H8 / LED", Front_Turn_Signal: "PY21W / 1157A", Rear_Turn_Signal: "PY21W / 1156A", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Azera / Grandeur", Generation_Years: "2006–2011", Start_Year: 2006, End_Year: 2011, Markets: "US, GCC, Korea", Low_Beam: "H7 (D1S HID)", High_Beam: "H7", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "2357A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "LED / 2357", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Azera / Grandeur", Generation_Years: "2012–2017", Start_Year: 2012, End_Year: 2017, Markets: "US, GCC, Korea", Low_Beam: "H7 (D1S / D3S HID)", High_Beam: "H7", Fog_Light: "H8 / H11", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Azera / Grandeur", Generation_Years: "2018–2025", Start_Year: 2018, End_Year: 2025, Markets: "GCC, Korea", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED / N/A", Front_Turn_Signal: "LED / PY21W", Rear_Turn_Signal: "LED / PY21W", Brake_Tail_Light: "LED", Reverse_Light: "LED / 921", License_Plate: "LED" },
+      { Brand: "Hyundai", Model: "Tucson", Generation_Years: "2005–2009", Start_Year: 2005, End_Year: 2009, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157 / P21/5W", Reverse_Light: "921 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Tucson", Generation_Years: "2010–2015", Start_Year: 2010, End_Year: 2015, Markets: "US, GCC, Europe", Low_Beam: "H7 / H11", High_Beam: "H7 / 9005", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Tucson", Generation_Years: "2016–2021", Start_Year: 2016, End_Year: 2021, Markets: "US, GCC, Europe", Low_Beam: "H7 / LED", High_Beam: "H7 / 9005 / LED", Fog_Light: "H8 / 9006 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Tucson", Generation_Years: "2022–2025", Start_Year: 2022, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "N/A", Front_Turn_Signal: "1156A / PY21W / LED", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Santa Fe", Generation_Years: "2001–2006", Start_Year: 2001, End_Year: 2006, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H3", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "1156", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Santa Fe", Generation_Years: "2007–2012", Start_Year: 2007, End_Year: 2012, Markets: "US, GCC, Europe", Low_Beam: "H7", High_Beam: "H7", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "2357A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Santa Fe", Generation_Years: "2013–2018", Start_Year: 2013, End_Year: 2018, Markets: "US, GCC, Europe", Low_Beam: "H11 (D1S / D3S HID)", High_Beam: "H7 / 9005", Fog_Light: "H8 / H11", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Hyundai", Model: "Santa Fe", Generation_Years: "2019–2023", Start_Year: 2019, End_Year: 2023, Markets: "US, GCC, Europe", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "H8 / LED", Front_Turn_Signal: "1156A / PY21W / LED", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Santa Fe", Generation_Years: "2024–2025", Start_Year: 2024, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "N/A", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED / PY21W", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Hyundai", Model: "Palisade", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC, Korea", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "N/A", Front_Turn_Signal: "1156A / LED", Rear_Turn_Signal: "1156A / LED", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Kona", Generation_Years: "2018–2023", Start_Year: 2018, End_Year: 2023, Markets: "US, Europe, GCC", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "H8 / LED", Front_Turn_Signal: "1156A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Hyundai", Model: "Kona", Generation_Years: "2024–2025", Start_Year: 2024, End_Year: 2025, Markets: "US, Europe, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "N/A", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED / PY21W", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+
+      // ==================== KIA (29 rows) ====================
+      { Brand: "Kia", Model: "Optima / Magentis", Generation_Years: "2001–2006", Start_Year: 2001, End_Year: 2006, Markets: "US, GCC, Europe", Low_Beam: "H7", High_Beam: "H1 / H7", Fog_Light: "881 / H3", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157 / P21/5W", Reverse_Light: "1156 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Optima / Magentis", Generation_Years: "2007–2010", Start_Year: 2007, End_Year: 2010, Markets: "US, GCC, Europe", Low_Beam: "H7", High_Beam: "H1 / H7", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "2357 / 1157", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Optima / K5", Generation_Years: "2011–2015", Start_Year: 2011, End_Year: 2015, Markets: "US, GCC, Europe", Low_Beam: "H11 (D1S / D3S HID)", High_Beam: "H1 / H7", Fog_Light: "H8 / H11", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Optima / K5", Generation_Years: "2016–2020", Start_Year: 2016, End_Year: 2020, Markets: "US, GCC, Europe", Low_Beam: "H7 / 9005 / D3S / LED", High_Beam: "9005 / H7 / LED", Fog_Light: "H8 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "K5", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC, Korea", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED / N/A", Front_Turn_Signal: "LED / PY21W", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Cerato / Forte / Spectra", Generation_Years: "2004–2009", Start_Year: 2004, End_Year: 2009, Markets: "US, GCC, Global", Low_Beam: "H7 (H4 00-03)", High_Beam: "H1 (H4 00-03)", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157 / P21/5W", Reverse_Light: "1156 / P21W", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Cerato / Forte", Generation_Years: "2010–2013", Start_Year: 2010, End_Year: 2013, Markets: "US, GCC, Global", Low_Beam: "H11 / H7", High_Beam: "H1", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "1157 / 2357", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Cerato / Forte", Generation_Years: "2014–2018", Start_Year: 2014, End_Year: 2018, Markets: "US, GCC, Global", Low_Beam: "H7 (D3S HID)", High_Beam: "H7 / H1", Fog_Light: "H8 / 881", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Cerato / Forte / K4", Generation_Years: "2019–2025", Start_Year: 2019, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "H7 / 9005 / LED", High_Beam: "9005 / H7 / LED", Fog_Light: "H8 / 9006 / LED", Front_Turn_Signal: "1157A / PY21W / LED", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Rio", Generation_Years: "2000–2005", Start_Year: 2000, End_Year: 2005, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H3", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "1156", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Rio", Generation_Years: "2006–2011", Start_Year: 2006, End_Year: 2011, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "921 / 1156", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Rio", Generation_Years: "2012–2017", Start_Year: 2012, End_Year: 2017, Markets: "US, GCC, Europe", Low_Beam: "H4 (H7 proj.)", High_Beam: "H4 (H7 proj.)", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Rio", Generation_Years: "2018–2023", Start_Year: 2018, End_Year: 2023, Markets: "US, GCC, Europe", Low_Beam: "H4 (9005 proj.) / LED", High_Beam: "H4 (9005 proj.) / LED", Fog_Light: "9006 / H8", Front_Turn_Signal: "PY21W / 1157A", Rear_Turn_Signal: "PY21W / 1156A", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Sportage", Generation_Years: "2005–2010", Start_Year: 2005, End_Year: 2010, Markets: "US, GCC, Europe", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "921 / 1156", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Sportage", Generation_Years: "2011–2016", Start_Year: 2011, End_Year: 2016, Markets: "US, GCC, Europe", Low_Beam: "H7 / H11 (D1S HID)", High_Beam: "H7 / 9005", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Sportage", Generation_Years: "2017–2022", Start_Year: 2017, End_Year: 2022, Markets: "US, GCC, Europe", Low_Beam: "9005 / H7 / LED", High_Beam: "9005 / H7 / LED", Fog_Light: "H8 / 9006 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Sportage", Generation_Years: "2023–2025", Start_Year: 2023, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED / N/A", Front_Turn_Signal: "LED / PY21W", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Sorento", Generation_Years: "2003–2009", Start_Year: 2003, End_Year: 2009, Markets: "US, GCC, Europe", Low_Beam: "H7 (H1 07-09)", High_Beam: "H1", Fog_Light: "881 / H27W/2", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156 / PY21W", Brake_Tail_Light: "1157", Reverse_Light: "1156 / 921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Sorento", Generation_Years: "2011–2015", Start_Year: 2011, End_Year: 2015, Markets: "US, GCC, Europe", Low_Beam: "H11 (D1S / D3S HID)", High_Beam: "H7 / 9005", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / W5W" },
+      { Brand: "Kia", Model: "Sorento", Generation_Years: "2016–2020", Start_Year: 2016, End_Year: 2020, Markets: "US, GCC, Europe", Low_Beam: "H7 / D3S / LED", High_Beam: "9005 / H7 / LED", Fog_Light: "H8 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Sorento", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED / N/A", Front_Turn_Signal: "LED / PY21W", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Telluride", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "LED / N/A", Front_Turn_Signal: "1156A / LED", Rear_Turn_Signal: "1156A / LED", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Carnival / Sedona", Generation_Years: "2002–2005", Start_Year: 2002, End_Year: 2005, Markets: "US, GCC, Global", Low_Beam: "H7", High_Beam: "H7", Fog_Light: "881", Front_Turn_Signal: "1157A", Rear_Turn_Signal: "1156", Brake_Tail_Light: "1157", Reverse_Light: "1156", License_Plate: "168" },
+      { Brand: "Kia", Model: "Carnival / Sedona", Generation_Years: "2006–2014", Start_Year: 2006, End_Year: 2014, Markets: "US, GCC, Global", Low_Beam: "H7", High_Beam: "H1", Fog_Light: "881", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Kia", Model: "Carnival / Sedona", Generation_Years: "2015–2021", Start_Year: 2015, End_Year: 2021, Markets: "US, GCC, Global", Low_Beam: "H7 / D3S / LED", High_Beam: "9005 / H7", Fog_Light: "H8 / LED", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Kia", Model: "Carnival", Generation_Years: "2022–2025", Start_Year: 2022, End_Year: 2025, Markets: "US, GCC, Global", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED / N/A", Front_Turn_Signal: "LED / PY21W", Rear_Turn_Signal: "1156A / PY21W / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "168 / LED" },
+      { Brand: "Kia", Model: "Soul", Generation_Years: "2010–2013", Start_Year: 2010, End_Year: 2013, Markets: "US, Europe, GCC", Low_Beam: "H4 (9003)", High_Beam: "H4 (9003)", Fog_Light: "881 / H8", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Kia", Model: "Soul", Generation_Years: "2014–2019", Start_Year: 2014, End_Year: 2019, Markets: "US, Europe, GCC", Low_Beam: "H4 (9003) / D3S", High_Beam: "H4 (9003) / D3S", Fog_Light: "H8 / 881", Front_Turn_Signal: "1157A / PY21W", Rear_Turn_Signal: "1156A / PY21W", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168" },
+      { Brand: "Kia", Model: "Soul", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, Europe, GCC", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "H8 / LED", Front_Turn_Signal: "1156A / LED", Rear_Turn_Signal: "1156A / LED", Brake_Tail_Light: "2357 / LED", Reverse_Light: "921", License_Plate: "168 / LED" },
+
+      // ==================== FORD (30 rows) ====================
+      { Brand: "Ford", Model: "F-150", Generation_Years: "2000–2003", Start_Year: 2000, End_Year: 2003, Markets: "US, GCC", Low_Beam: "9007", High_Beam: "9007", Fog_Light: "9145 (H10) / 9006", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Ford", Model: "F-150", Generation_Years: "2004–2008", Start_Year: 2004, End_Year: 2008, Markets: "US, GCC", Low_Beam: "H13 (9008)", High_Beam: "H13 (9008)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "F-150", Generation_Years: "2009–2014", Start_Year: 2009, End_Year: 2014, Markets: "US, GCC", Low_Beam: "H13 (D3S HID 13-14)", High_Beam: "H13 (D3S HID 13-14)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157 / 4057", Brake_Tail_Light: "3157 / 4057", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "F-150", Generation_Years: "2015–2020", Start_Year: 2015, End_Year: 2020, Markets: "US, GCC", Low_Beam: "H11 / LED", High_Beam: "9005 / LED", Fog_Light: "9145 (H10) / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921 / LED", License_Plate: "194" },
+      { Brand: "Ford", Model: "F-150", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC", Low_Beam: "H11 / LED", High_Beam: "9005 / LED", Fog_Light: "LED / H10", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "Ford", Model: "Mustang", Generation_Years: "2000–2004", Start_Year: 2000, End_Year: 2004, Markets: "US, GCC", Low_Beam: "9007", High_Beam: "9007", Fog_Light: "893 / 899", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Ford", Model: "Mustang", Generation_Years: "2005–2009", Start_Year: 2005, End_Year: 2009, Markets: "US, GCC", Low_Beam: "H13 (D3S HID 08-09)", High_Beam: "H13 (D3S HID 08-09)", Fog_Light: "9145 (H10) / H11", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "4057 / 3157", Brake_Tail_Light: "4057 / 3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Mustang", Generation_Years: "2010–2014", Start_Year: 2010, End_Year: 2014, Markets: "US, GCC", Low_Beam: "H13 / D3S HID", High_Beam: "H13 / D3S HID", Fog_Light: "H11 / 9145 / LED", Front_Turn_Signal: "3457A / LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Mustang", Generation_Years: "2015–2023", Start_Year: 2015, End_Year: 2023, Markets: "US, GCC, Europe", Low_Beam: "D3S HID (15-17) / LED", High_Beam: "D3S HID (15-17) / LED", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "7440 / LED", License_Plate: "194 / LED" },
+      { Brand: "Ford", Model: "Mustang", Generation_Years: "2024–2025", Start_Year: 2024, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "N/A", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Ford", Model: "Explorer", Generation_Years: "2002–2005", Start_Year: 2002, End_Year: 2005, Markets: "US, GCC", Low_Beam: "9006 (9007 00-01)", High_Beam: "9005 (9007 00-01)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156 / 921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Explorer", Generation_Years: "2006–2010", Start_Year: 2006, End_Year: 2010, Markets: "US, GCC", Low_Beam: "H13 (9008)", High_Beam: "H13 (9008)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Explorer", Generation_Years: "2011–2015", Start_Year: 2011, End_Year: 2015, Markets: "US, GCC", Low_Beam: "9006 (D3S HID)", High_Beam: "9006 (D3S HID)", Fog_Light: "H11", Front_Turn_Signal: "3457A", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Explorer", Generation_Years: "2016–2019", Start_Year: 2016, End_Year: 2019, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "9005 / LED", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "Ford", Model: "Explorer", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Ford", Model: "Expedition", Generation_Years: "2003–2006", Start_Year: 2003, End_Year: 2006, Markets: "US, GCC", Low_Beam: "9006 (9007 00-02)", High_Beam: "9005 (9007 00-02)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Ford", Model: "Expedition", Generation_Years: "2007–2014", Start_Year: 2007, End_Year: 2014, Markets: "US, GCC", Low_Beam: "H13 (D3S HID)", High_Beam: "H13 (D3S HID)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Expedition", Generation_Years: "2015–2017", Start_Year: 2015, End_Year: 2017, Markets: "US, GCC", Low_Beam: "H11 / D3S HID", High_Beam: "9005", Fog_Light: "9145 / LED", Front_Turn_Signal: "3157A / 7444NA", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Expedition", Generation_Years: "2018–2025", Start_Year: 2018, End_Year: 2025, Markets: "US, GCC", Low_Beam: "H11 / LED", High_Beam: "9005 / LED", Fog_Light: "9145 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "Ford", Model: "Escape / Kuga", Generation_Years: "2001–2007", Start_Year: 2001, End_Year: 2007, Markets: "US, Europe", Low_Beam: "9007 (H11 05-07)", High_Beam: "9007 (9005 05-07)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156 / 921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Escape / Kuga", Generation_Years: "2008–2012", Start_Year: 2008, End_Year: 2012, Markets: "US, Europe", Low_Beam: "H13 (9008)", High_Beam: "H13 (9008)", Fog_Light: "9145 (H10) / H11", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Escape / Kuga", Generation_Years: "2013–2019", Start_Year: 2013, End_Year: 2019, Markets: "US, Europe, GCC", Low_Beam: "H11 (D3S HID)", High_Beam: "9005", Fog_Light: "H11 / H8", Front_Turn_Signal: "7444NA / PY21W", Rear_Turn_Signal: "7440A / PY21W", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "194 / W5W" },
+      { Brand: "Ford", Model: "Escape / Kuga", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, Europe, GCC", Low_Beam: "H11 / LED", High_Beam: "9005 / LED", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Ford", Model: "Edge", Generation_Years: "2007–2014", Start_Year: 2007, End_Year: 2014, Markets: "US, GCC", Low_Beam: "H11 (9012 11-14 / D3S)", High_Beam: "9005 (9012 11-14)", Fog_Light: "H11 / LED", Front_Turn_Signal: "3157A / 7444NA", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Edge", Generation_Years: "2015–2024", Start_Year: 2015, End_Year: 2024, Markets: "US, GCC", Low_Beam: "H11 / D3S / LED", High_Beam: "9005 / LED", Fog_Light: "LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "Ford", Model: "Fusion / Mondeo", Generation_Years: "2006–2012", Start_Year: 2006, End_Year: 2012, Markets: "US, GCC, Europe", Low_Beam: "H11 (H7 06-09)", High_Beam: "9005 (H7 06-09)", Fog_Light: "H11", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Fusion / Mondeo", Generation_Years: "2013–2020", Start_Year: 2013, End_Year: 2020, Markets: "US, GCC, Europe", Low_Beam: "H11 / LED", High_Beam: "H7 / 9005 / LED", Fog_Light: "H11 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "Ford", Model: "Taurus", Generation_Years: "2010–2019", Start_Year: 2010, End_Year: 2019, Markets: "US, GCC", Low_Beam: "9012 (D3S HID)", High_Beam: "9012 (D3S HID)", Fog_Light: "LED", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "LED / 3157", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Ford", Model: "Taurus", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "GCC, China", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED / 921", License_Plate: "LED" },
+      { Brand: "Ford", Model: "Focus", Generation_Years: "2000–2018", Start_Year: 2000, End_Year: 2018, Markets: "US, Europe, GCC", Low_Beam: "H11 (H4/H7 early)", High_Beam: "H1 (H4/9005 early)", Fog_Light: "H11 / H8", Front_Turn_Signal: "3157A / PY21W", Rear_Turn_Signal: "3157 / PY21W", Brake_Tail_Light: "3157 / P21/5W", Reverse_Light: "921 / P21W", License_Plate: "194 / W5W" },
+
+      // ==================== GMC (17 rows) ====================
+      { Brand: "GMC", Model: "Sierra 1500", Generation_Years: "2000–2006", Start_Year: 2000, End_Year: 2006, Markets: "US, GCC", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "880 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "GMC", Model: "Sierra 1500", Generation_Years: "2007–2013", Start_Year: 2007, End_Year: 2013, Markets: "US, GCC", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "5202 (H16)", Front_Turn_Signal: "3157A / 4157NA", Rear_Turn_Signal: "3047 / 3157", Brake_Tail_Light: "3047 / 3157", Reverse_Light: "3047 / 921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Sierra 1500", Generation_Years: "2014–2018", Start_Year: 2014, End_Year: 2018, Markets: "US, GCC", Low_Beam: "9012 (D5S HID / LED)", High_Beam: "9012 (D5S HID / LED)", Fog_Light: "5202 / PSX24W / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / LED", License_Plate: "194" },
+      { Brand: "GMC", Model: "Sierra 1500", Generation_Years: "2019–2025", Start_Year: 2019, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED / 7444NA", Rear_Turn_Signal: "LED / 7443", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "GMC", Model: "Yukon / Yukon XL", Generation_Years: "2000–2006", Start_Year: 2000, End_Year: 2006, Markets: "US, GCC", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "880 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "GMC", Model: "Yukon / Yukon XL", Generation_Years: "2007–2014", Start_Year: 2007, End_Year: 2014, Markets: "US, GCC", Low_Beam: "H13 (9008)", High_Beam: "H13 (9008)", Fog_Light: "5202 (H16)", Front_Turn_Signal: "3157A / 4157NA", Rear_Turn_Signal: "3047 / 3157", Brake_Tail_Light: "3047 / 3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Yukon / Yukon XL", Generation_Years: "2015–2020", Start_Year: 2015, End_Year: 2020, Markets: "US, GCC", Low_Beam: "H11 (D3S HID)", High_Beam: "9005", Fog_Light: "5202 (PSX26W) / LED", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Yukon / Yukon XL", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED / 921", License_Plate: "LED" },
+      { Brand: "GMC", Model: "Acadia", Generation_Years: "2007–2012", Start_Year: 2007, End_Year: 2012, Markets: "US, GCC", Low_Beam: "H11 (D1S HID)", High_Beam: "9005", Fog_Light: "5202 (H16)", Front_Turn_Signal: "3457A", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Acadia", Generation_Years: "2013–2016", Start_Year: 2013, End_Year: 2016, Markets: "US, GCC", Low_Beam: "9012 (D3S HID)", High_Beam: "9012 (D3S HID)", Fog_Light: "H11 / 5202", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Acadia", Generation_Years: "2017–2023", Start_Year: 2017, End_Year: 2023, Markets: "US, GCC", Low_Beam: "9012 (D3S HID / LED)", High_Beam: "9012 (D3S HID / LED)", Fog_Light: "H11 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "GMC", Model: "Acadia", Generation_Years: "2024–2025", Start_Year: 2024, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "GMC", Model: "Terrain", Generation_Years: "2010–2017", Start_Year: 2010, End_Year: 2017, Markets: "US, GCC", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "H11 / 5202", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "7440A / 3157", Brake_Tail_Light: "7443 / 3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Terrain", Generation_Years: "2018–2024", Start_Year: 2018, End_Year: 2024, Markets: "US, GCC", Low_Beam: "9005 (D5S HID / LED)", High_Beam: "9005 (D5S HID / LED)", Fog_Light: "H8 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "GMC", Model: "Canyon", Generation_Years: "2004–2012", Start_Year: 2004, End_Year: 2012, Markets: "US", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3757A / 3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "GMC", Model: "Canyon", Generation_Years: "2015–2022", Start_Year: 2015, End_Year: 2022, Markets: "US", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "5202 / H11 / LED", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7443", Brake_Tail_Light: "7443", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "GMC", Model: "Canyon", Generation_Years: "2023–2025", Start_Year: 2023, End_Year: 2025, Markets: "US", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+
+      // ==================== CADILLAC (14 rows) ====================
+      { Brand: "Cadillac", Model: "Escalade", Generation_Years: "2002–2006", Start_Year: 2002, End_Year: 2006, Markets: "US, GCC", Low_Beam: "D1R / D2R HID (9006)", High_Beam: "9005", Fog_Light: "880 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157 / LED", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "Escalade", Generation_Years: "2007–2014", Start_Year: 2007, End_Year: 2014, Markets: "US, GCC", Low_Beam: "D1S HID", High_Beam: "D1S HID (Bi-Xenon)", Fog_Light: "9145 (H10) / H16", Front_Turn_Signal: "3457A", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "Escalade", Generation_Years: "2015–2020", Start_Year: 2015, End_Year: 2020, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED / 921", License_Plate: "LED" },
+      { Brand: "Cadillac", Model: "Escalade", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Cadillac", Model: "CTS", Generation_Years: "2003–2007", Start_Year: 2003, End_Year: 2007, Markets: "US, GCC, Europe", Low_Beam: "H11 (D1S HID)", High_Beam: "9005", Fog_Light: "H11 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "CTS", Generation_Years: "2008–2013", Start_Year: 2008, End_Year: 2013, Markets: "US, GCC, Europe", Low_Beam: "H11 (D1S HID)", High_Beam: "H9 / 9005", Fog_Light: "H11", Front_Turn_Signal: "3457A", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "CTS / CT5", Generation_Years: "2014–2025", Start_Year: 2014, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "D3S HID / LED", High_Beam: "D3S HID / LED", Fog_Light: "LED / N/A", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Cadillac", Model: "ATS / CT4", Generation_Years: "2013–2025", Start_Year: 2013, End_Year: 2025, Markets: "US, GCC", Low_Beam: "9012 (D3S HID / LED)", High_Beam: "9012 (D3S HID / LED)", Fog_Light: "H11 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "Cadillac", Model: "SRX", Generation_Years: "2004–2009", Start_Year: 2004, End_Year: 2009, Markets: "US, GCC", Low_Beam: "H11 (D1S HID)", High_Beam: "9005", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "SRX", Generation_Years: "2010–2016", Start_Year: 2010, End_Year: 2016, Markets: "US, GCC", Low_Beam: "H11 (D1S / D3S HID)", High_Beam: "9005", Fog_Light: "H11", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "XT5", Generation_Years: "2017–2025", Start_Year: 2017, End_Year: 2025, Markets: "US, GCC, China", Low_Beam: "9005 / LED", High_Beam: "9005 / LED", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Cadillac", Model: "XT4 / XT6", Generation_Years: "2019–2025", Start_Year: 2019, End_Year: 2025, Markets: "US, GCC, China", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+      { Brand: "Cadillac", Model: "DTS / DeVille", Generation_Years: "2000–2011", Start_Year: 2000, End_Year: 2011, Markets: "US, GCC", Low_Beam: "9006 (D1S / D2R HID)", High_Beam: "9005", Fog_Light: "880 / 9145", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "LED / 3157", Brake_Tail_Light: "LED", Reverse_Light: "3156 / 921", License_Plate: "194" },
+      { Brand: "Cadillac", Model: "XTS", Generation_Years: "2013–2019", Start_Year: 2013, End_Year: 2019, Markets: "US, GCC, China", Low_Beam: "D3S HID / LED", High_Beam: "D3S HID / LED", Fog_Light: "N/A", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+
+      // ==================== CHEVROLET (28 rows) ====================
+      { Brand: "Chevrolet", Model: "Silverado 1500", Generation_Years: "2000–2006", Start_Year: 2000, End_Year: 2006, Markets: "US, GCC", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "880 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Silverado 1500", Generation_Years: "2007–2013", Start_Year: 2007, End_Year: 2013, Markets: "US, GCC", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "5202 (H16)", Front_Turn_Signal: "3157A / 4157NA", Rear_Turn_Signal: "3047 / 3157", Brake_Tail_Light: "3047 / 3157", Reverse_Light: "3047 / 921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Silverado 1500", Generation_Years: "2014–2018", Start_Year: 2014, End_Year: 2018, Markets: "US, GCC", Low_Beam: "H11 (D5S HID 16-18)", High_Beam: "9005 (D5S HID 16-18)", Fog_Light: "5202 / PSX24W / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / LED", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Silverado 1500", Generation_Years: "2019–2025", Start_Year: 2019, End_Year: 2025, Markets: "US, GCC", Low_Beam: "H11 / LED", High_Beam: "9005 / LED", Fog_Light: "LED / H11", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Tahoe / Suburban", Generation_Years: "2000–2006", Start_Year: 2000, End_Year: 2006, Markets: "US, GCC", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "880 / 9145", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Tahoe / Suburban", Generation_Years: "2007–2014", Start_Year: 2007, End_Year: 2014, Markets: "US, GCC", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "5202 (H16)", Front_Turn_Signal: "3157A / 4157NA", Rear_Turn_Signal: "3047 / 3157", Brake_Tail_Light: "3047 / 3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Tahoe / Suburban", Generation_Years: "2015–2020", Start_Year: 2015, End_Year: 2020, Markets: "US, GCC", Low_Beam: "H11 (D3S HID)", High_Beam: "9005", Fog_Light: "5202 (PSX26W) / LED", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Tahoe / Suburban", Generation_Years: "2021–2025", Start_Year: 2021, End_Year: 2025, Markets: "US, GCC", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "LED", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED / 921", License_Plate: "LED" },
+      { Brand: "Chevrolet", Model: "Malibu", Generation_Years: "2004–2012", Start_Year: 2004, End_Year: 2012, Markets: "US, GCC", Low_Beam: "H11 (H9 04-07)", High_Beam: "9005 (H9 04-07)", Fog_Light: "H11 / 9145", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Malibu", Generation_Years: "2013–2015", Start_Year: 2013, End_Year: 2015, Markets: "US, GCC, Korea", Low_Beam: "H11 (D3S HID)", High_Beam: "9005", Fog_Light: "H11 / 5202", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Malibu", Generation_Years: "2016–2025", Start_Year: 2016, End_Year: 2025, Markets: "US, GCC, Korea", Low_Beam: "9005 / H11 / LED", High_Beam: "9005 / LED", Fog_Light: "LED / N/A", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Impala", Generation_Years: "2000–2013", Start_Year: 2000, End_Year: 2013, Markets: "US, GCC", Low_Beam: "H11 (9006 00-05)", High_Beam: "9005", Fog_Light: "893 / H11 / 5202", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "3057 / 3157", Brake_Tail_Light: "3057 / 3157", Reverse_Light: "921 / 3156", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Impala", Generation_Years: "2014–2020", Start_Year: 2014, End_Year: 2020, Markets: "US, GCC", Low_Beam: "9012 (D3S HID)", High_Beam: "9012 (D3S HID)", Fog_Light: "LED", Front_Turn_Signal: "7444NA", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Camaro", Generation_Years: "2010–2015", Start_Year: 2010, End_Year: 2015, Markets: "US, GCC, Europe", Low_Beam: "H13 (D1S HID)", High_Beam: "H13 (D1S HID)", Fog_Light: "5202 (PSX24W)", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Camaro", Generation_Years: "2016–2024", Start_Year: 2016, End_Year: 2024, Markets: "US, GCC, Europe", Low_Beam: "9005 (D3S HID / LED)", High_Beam: "9005 (D3S HID / LED)", Fog_Light: "LED / N/A", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "LED" },
+      { Brand: "Chevrolet", Model: "Equinox", Generation_Years: "2005–2009", Start_Year: 2005, End_Year: 2009, Markets: "US", Low_Beam: "9007", High_Beam: "9007", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Equinox", Generation_Years: "2010–2017", Start_Year: 2010, End_Year: 2017, Markets: "US, GCC", Low_Beam: "H11", High_Beam: "9005", Fog_Light: "H11 / 5202", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "7440A / 3157", Brake_Tail_Light: "7443 / 3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Equinox", Generation_Years: "2018–2025", Start_Year: 2018, End_Year: 2025, Markets: "US, GCC", Low_Beam: "9005 (D5S HID / LED)", High_Beam: "9005 (D5S HID / LED)", Fog_Light: "H8 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED / 7443", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Traverse", Generation_Years: "2009–2017", Start_Year: 2009, End_Year: 2017, Markets: "US, GCC", Low_Beam: "H11 (D3S HID)", High_Beam: "9005", Fog_Light: "5202 / H11", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Traverse", Generation_Years: "2018–2025", Start_Year: 2018, End_Year: 2025, Markets: "US, GCC", Low_Beam: "9005 (D5S HID / LED)", High_Beam: "9005 (D5S HID / LED)", Fog_Light: "H8 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Cruze", Generation_Years: "2011–2019", Start_Year: 2011, End_Year: 2019, Markets: "US, GCC, Europe", Low_Beam: "H13 (11-15) / 9005 (16-19)", High_Beam: "H13 (11-15) / 9005 (16-19)", Fog_Light: "H8 / H11", Front_Turn_Signal: "3457A / 7444NA", Rear_Turn_Signal: "7440A / 3157", Brake_Tail_Light: "7443 / 3157", Reverse_Light: "921", License_Plate: "194 / W5W" },
+      { Brand: "Chevrolet", Model: "Trailblazer / Blazer", Generation_Years: "2002–2009", Start_Year: 2002, End_Year: 2009, Markets: "US, GCC", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "880", Front_Turn_Signal: "3757A / 3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Blazer / Trailblazer", Generation_Years: "2019–2025", Start_Year: 2019, End_Year: 2025, Markets: "US, GCC", Low_Beam: "9005 / D5S HID / LED", High_Beam: "9005 / D5S HID / LED", Fog_Light: "LED / N/A", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7440A / LED", Brake_Tail_Light: "LED", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Caprice / Lumina", Generation_Years: "2000–2017", Start_Year: 2000, End_Year: 2017, Markets: "GCC, Australia", Low_Beam: "H7 / H11 (D1S HID)", High_Beam: "H7 / H9", Fog_Light: "H3 / H11 / 5202", Front_Turn_Signal: "PY21W / 7444NA", Rear_Turn_Signal: "PY21W", Brake_Tail_Light: "P21/5W / LED", Reverse_Light: "P21W / 921", License_Plate: "W5W (194)" },
+      { Brand: "Chevrolet", Model: "Colorado", Generation_Years: "2004–2012", Start_Year: 2004, End_Year: 2012, Markets: "US, Global", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3757A / 3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" },
+      { Brand: "Chevrolet", Model: "Colorado", Generation_Years: "2015–2025", Start_Year: 2015, End_Year: 2025, Markets: "US, Global", Low_Beam: "H11 / LED", High_Beam: "9005 / LED", Fog_Light: "5202 / H11 / LED", Front_Turn_Signal: "7444NA / LED", Rear_Turn_Signal: "7443 / LED", Brake_Tail_Light: "7443 / LED", Reverse_Light: "921 / LED", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Corvette", Generation_Years: "2000–2019", Start_Year: 2000, End_Year: 2019, Markets: "US, GCC, Europe", Low_Beam: "D1S / D3S HID (9006 C5)", High_Beam: "9005 (D1S/D3S C6-C7)", Fog_Light: "H11 / 9145", Front_Turn_Signal: "3157A / 7444NA / LED", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "3157 / LED", Reverse_Light: "3156 / 921", License_Plate: "194 / LED" },
+      { Brand: "Chevrolet", Model: "Corvette", Generation_Years: "2020–2025", Start_Year: 2020, End_Year: 2025, Markets: "US, GCC, Europe", Low_Beam: "LED (Integrated)", High_Beam: "LED (Integrated)", Fog_Light: "N/A", Front_Turn_Signal: "LED", Rear_Turn_Signal: "LED", Brake_Tail_Light: "LED", Reverse_Light: "LED", License_Plate: "LED" },
+
+      // ==================== MERCURY (7 rows) ====================
+      { Brand: "Mercury", Model: "Grand Marquis", Generation_Years: "2000–2011", Start_Year: 2000, End_Year: 2011, Markets: "US, GCC", Low_Beam: "9007", High_Beam: "9007", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156 / 921", License_Plate: "194" },
+      { Brand: "Mercury", Model: "Mountaineer", Generation_Years: "2002–2010", Start_Year: 2002, End_Year: 2010, Markets: "US, GCC", Low_Beam: "9006 (02-05) / H13 (06-10)", High_Beam: "9005 (02-05) / H13 (06-10)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Mercury", Model: "Milan", Generation_Years: "2006–2011", Start_Year: 2006, End_Year: 2011, Markets: "US, GCC", Low_Beam: "H11 (H7 06-09)", High_Beam: "9005 (H7 06-09)", Fog_Light: "H11", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "3157 / LED", Brake_Tail_Light: "LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Mercury", Model: "Mariner", Generation_Years: "2005–2011", Start_Year: 2005, End_Year: 2011, Markets: "US", Low_Beam: "H11 (05-07) / H13 (08-11)", High_Beam: "9005 (05-07) / H13 (08-11)", Fog_Light: "9145 (H10) / H11", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Mercury", Model: "Sable / Montego", Generation_Years: "2000–2009", Start_Year: 2000, End_Year: 2009, Markets: "US", Low_Beam: "H11 (9007 00-04 / D3S HID)", High_Beam: "9005 (9007 00-04)", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A / 3457A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157 / LED", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Mercury", Model: "Monterey", Generation_Years: "2004–2007", Start_Year: 2004, End_Year: 2007, Markets: "US", Low_Beam: "9007", High_Beam: "9007", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "921", License_Plate: "194" },
+      { Brand: "Mercury", Model: "Marauder", Generation_Years: "2003–2004", Start_Year: 2003, End_Year: 2004, Markets: "US, GCC", Low_Beam: "9006", High_Beam: "9005", Fog_Light: "9145 (H10)", Front_Turn_Signal: "3157A", Rear_Turn_Signal: "3157", Brake_Tail_Light: "3157", Reverse_Light: "3156", License_Plate: "194" }
+    ];
+
+    // Lighting positions metadata for the Spotlight Card & SVG Diagram
+    const BULB_POSITIONS = [
+      { key: "Low_Beam", label: "Low Beam Headlight", short: "Low Beam", desc: "Primary dipped-beam road illumination" },
+      { key: "High_Beam", label: "High Beam Headlight", short: "High Beam", desc: "Long-range main beam illumination" },
+      { key: "Fog_Light", label: "Front Fog Light", short: "Fog Light", desc: "Low-mounted wide beam for fog, dust & rain" },
+      { key: "Front_Turn_Signal", label: "Front Turn Signal", short: "Front Turn", desc: "Front amber directional indicator / DRL" },
+      { key: "Rear_Turn_Signal", label: "Rear Turn Signal", short: "Rear Turn", desc: "Rear directional blinker indicator" },
+      { key: "Brake_Tail_Light", label: "Brake & Tail Light", short: "Brake / Tail", desc: "Running tail lamp & stop signal" },
+      { key: "Reverse_Light", label: "Reverse / Backup Light", short: "Reverse Light", desc: "White rear illumination when shifting to R" },
+      { key: "License_Plate", label: "License Plate Light", short: "License Plate", desc: "Rear registration tag illumination" }
+    ];
+
+    // Application State
+    const state = {
+      brand: "",
+      model: "",
+      year: "",
+      search: "",
+      market: "ALL",
+      tech: "ALL",
+      sort: "default",
+      view: "cards", // "cards" | "table"
+      visibleLimit: 36,
+      selectedVehicleIndex: 5, // Defaults to Toyota Camry 2018-2024
+      selectedPositionKey: "Low_Beam"
+    };
+
+    // DOM Elements
+    const el = {
+      selectBrand: document.getElementById("select-brand"),
+      selectModel: document.getElementById("select-model"),
+      selectYear: document.getElementById("select-year"),
+      inputSearch: document.getElementById("input-search"),
+      btnClearSearch: document.getElementById("btn-clear-search"),
+      selectSort: document.getElementById("select-sort"),
+      btnViewCards: document.getElementById("btn-view-cards"),
+      btnViewTable: document.getElementById("btn-view-table"),
+      cardsContainer: document.getElementById("cards-view-container"),
+      tableContainer: document.getElementById("table-view-container"),
+      tableBody: document.getElementById("table-body"),
+      emptyState: document.getElementById("empty-state"),
+      paginationBar: document.getElementById("pagination-bar"),
+      paginationInfo: document.getElementById("pagination-info"),
+      btnLoadMore: document.getElementById("btn-load-more"),
+      btnShowAll: document.getElementById("btn-show-all"),
+      resultsCountBadge: document.getElementById("results-count-badge"),
+      activeFilterSummary: document.getElementById("active-filter-summary"),
+      // Spotlight elements
+      spotlightBrandBadge: document.getElementById("spotlight-brand-badge"),
+      spotlightTitle: document.getElementById("spotlight-title"),
+      spotlightSubtitle: document.getElementById("spotlight-subtitle"),
+      spotlightGrid: document.getElementById("spotlight-grid"),
+      calloutPosLabel: document.getElementById("callout-pos-label"),
+      calloutTechBadge: document.getElementById("callout-tech-badge"),
+      calloutBulbCode: document.getElementById("callout-bulb-code"),
+      calloutTechNote: document.getElementById("callout-tech-note"),
+      btnCopySelectedBulb: document.getElementById("btn-copy-selected-bulb"),
+      btnCopyAllSpecs: document.getElementById("btn-copy-all-specs"),
+      // Modals & Actions
+      legendModal: document.getElementById("legend-modal"),
+      btnLegend: document.getElementById("btn-legend"),
+      btnCloseLegend: document.getElementById("btn-close-legend"),
+      btnExportCsv: document.getElementById("btn-export-csv"),
+      btnPrint: document.getElementById("btn-print"),
+      btnResetAll: document.getElementById("btn-reset-all"),
+      btnEmptyReset: document.getElementById("btn-empty-reset"),
+      btnThemeToggle: document.getElementById("btn-theme-toggle"),
+      toastContainer: document.getElementById("toast-container")
+    };
+
+    // Helper: Show non-blocking Toast notification
+    function showToast(message, type = "success") {
+      const toast = document.createElement("div");
+      const colors = type === "success"
+        ? "bg-slate-900 dark:bg-slate-800 text-white border-emerald-500/40"
+        : "bg-slate-900 dark:bg-slate-800 text-white border-sky-500/40";
+      toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 rounded-xl border ${colors} shadow-xl text-xs font-semibold transition-all duration-300 transform translate-y-2 opacity-0`;
+      toast.innerHTML = `
+        <span class="w-2 h-2 rounded-full ${type === "success" ? "bg-emerald-400" : "bg-sky-400"}"></span>
+        <span>${escapeHtml(message)}</span>
+      `;
+      el.toastContainer.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove("translate-y-2", "opacity-0");
+      });
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    // Helper: Copy text reliably inside sandboxed iFrames
+    function copyTextToClipboard(text, label = "Copied to clipboard") {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        showToast(`${label}: ${text}`);
+      } catch (err) {
+        showToast("Unable to copy automatically", "info");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Helper: Escape HTML
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // Helper: Classify bulb technology & badge styling
+    function classifyBulbTech(val) {
+      const s = String(val || "").toUpperCase();
+      if (!s || s === "N/A") {
+        return {
+          type: "NONE",
+          label: "N/A",
+          badgeClass: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20",
+          note: "Not equipped on this vehicle generation."
+        };
+      }
+      const hasHID = /\bD[1-8][SR]\b|XENON|HID/.test(s);
+      const hasLED = /\bLED\b/.test(s);
+      const hasHalogen = /\b(H1|H3|H4|H7|H8|H9|H10|H11|H13|H16|H27W|9003|9005|9006|9007|9008|9012|HIR2|880|881|893|899|9145|5202|PSX24W|PSX26W|168|194|921|1156|1157|2357|3047|3057|3156|3157|3457|3757|4057|4157|7440|7443|7444|W5W|W16W|W21|P21|PY21|WY21)\b/.test(s);
+
+      if (hasHID && hasLED) {
+        return {
+          type: "HID",
+          label: "HID / LED",
+          badgeClass: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30",
+          note: "Trim-dependent: Xenon HID capsule or Factory LED assembly."
+        };
+      }
+      if (hasHID) {
+        return {
+          type: "HID",
+          label: "HID / Xenon",
+          badgeClass: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30",
+          note: "High-Intensity Discharge Xenon capsule (or Halogen base if noted)."
+        };
+      }
+      if (hasLED && !hasHalogen) {
+        return {
+          type: "LED",
+          label: "Factory LED",
+          badgeClass: "bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30",
+          note: "Integrated OEM LED module — non-serviceable bulb unit."
+        };
+      }
+      if (hasLED && hasHalogen) {
+        return {
+          type: "HYBRID",
+          label: "Halogen / LED",
+          badgeClass: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
+          note: "Standard trims use replaceable bulb; upper trims use factory LED."
+        };
+      }
+      return {
+        type: "HALOGEN",
+        label: "Halogen / Std",
+        badgeClass: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30",
+        note: "Standard replaceable plug-and-play socket bulb."
+      };
+    }
+
+    // Highlight search term in text
+    function highlightMatch(text, query) {
+      const safe = escapeHtml(text);
+      if (!query) return safe;
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(`(${escapedQuery})`, "gi");
+      return safe.replace(regex, '<mark class="bg-amber-300/70 dark:bg-amber-500/40 text-slate-950 dark:text-white rounded px-0.5">$1</mark>');
+    }
+
+    // Populate Dropdowns (Brand, Model, Year)
+    function populateSelectors() {
+      // 1. Brands with counts
+      const brandCounts = {};
+      BULB_DATA.forEach(row => {
+        brandCounts[row.Brand] = (brandCounts[row.Brand] || 0) + 1;
+      });
+      const brands = Object.keys(brandCounts);
+      el.selectBrand.innerHTML = `<option value="">All Brands (${BULB_DATA.length})</option>` +
+        brands.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)} (${brandCounts[b]})</option>`).join("");
+
+      // 2. Years 2025 down to 2000
+      let yearOpts = `<option value="">Any Year (2000–2025)</option>`;
+      for (let y = 2025; y >= 2000; y--) {
+        yearOpts += `<option value="${y}">${y}</option>`;
+      }
+      el.selectYear.innerHTML = yearOpts;
+
+      // 3. Models (filtered by Brand)
+      updateModelDropdown();
+    }
+
+    function updateModelDropdown() {
+      const filteredByBrand = state.brand
+        ? BULB_DATA.filter(r => r.Brand === state.brand)
+        : BULB_DATA;
+      const models = [...new Set(filteredByBrand.map(r => r.Model))].sort((a, b) => a.localeCompare(b));
+      const prevModel = state.model;
+      el.selectModel.innerHTML = `<option value="">All Models (${models.length})</option>` +
+        models.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+      if (models.includes(prevModel)) {
+        el.selectModel.value = prevModel;
+      } else {
+        state.model = "";
+        el.selectModel.value = "";
+      }
+    }
+
+    // Filter and Sort Dataset
+    function getFilteredData() {
+      const q = state.search.trim().toLowerCase();
+      const selectedYr = state.year ? parseInt(state.year, 10) : null;
+
+      let result = BULB_DATA.map((row, idx) => ({ ...row, _idx: idx })).filter(row => {
+        if (state.brand && row.Brand !== state.brand) return false;
+        if (state.model && row.Model !== state.model) return false;
+        if (selectedYr !== null && (selectedYr < row.Start_Year || selectedYr > row.End_Year)) return false;
+
+        // Market filter
+        if (state.market !== "ALL") {
+          const m = row.Markets.toUpperCase();
+          if (state.market === "GCC" && !m.includes("GCC")) return false;
+          if (state.market === "US" && !m.includes("US")) return false;
+          if (state.market === "EUROPE" && !m.includes("EUROPE")) return false;
+          if (state.market === "ASIA" && !(m.includes("ASIA") || m.includes("KOREA") || m.includes("CHINA") || m.includes("JAPAN"))) return false;
+        }
+
+        // Bulb Tech filter
+        if (state.tech !== "ALL") {
+          const allBulbsStr = BULB_POSITIONS.map(p => row[p.key]).join(" ").toUpperCase();
+          if (state.tech === "HID" && !/\bD[1-8][SR]\b|HID/.test(allBulbsStr)) return false;
+          if (state.tech === "LED" && !/\bLED\b/.test(allBulbsStr)) return false;
+          if (state.tech === "HALOGEN") {
+            const lowTech = classifyBulbTech(row.Low_Beam).type;
+            if (lowTech !== "HALOGEN" && lowTech !== "HYBRID") return false;
+          }
+        }
+
+        // Keyword / Bulb code search
+        if (q) {
+          const searchable = [
+            row.Brand,
+            row.Model,
+            row.Generation_Years,
+            row.Markets,
+            row.Low_Beam,
+            row.High_Beam,
+            row.Fog_Light,
+            row.Front_Turn_Signal,
+            row.Rear_Turn_Signal,
+            row.Brake_Tail_Light,
+            row.Reverse_Light,
+            row.License_Plate
+          ].join(" ").toLowerCase();
+          if (!searchable.includes(q)) return false;
+        }
+
+        return true;
+      });
+
+      // Apply Sorting
+      if (state.sort === "brand_asc") {
+        result.sort((a, b) => a.Brand.localeCompare(b.Brand) || a.Model.localeCompare(b.Model) || a.Start_Year - b.Start_Year);
+      } else if (state.sort === "model_asc") {
+        result.sort((a, b) => a.Model.localeCompare(b.Model) || a.Start_Year - b.Start_Year);
+      } else if (state.sort === "year_desc") {
+        result.sort((a, b) => b.End_Year - a.End_Year || b.Start_Year - a.Start_Year);
+      } else if (state.sort === "year_asc") {
+        result.sort((a, b) => a.Start_Year - b.Start_Year || a.End_Year - b.End_Year);
+      }
+
+      return result;
+    }
+
+    // Render Interactive Vehicle Spotlight Card
+    function renderSpotlight() {
+      const vehicle = BULB_DATA[state.selectedVehicleIndex] || BULB_DATA[0];
+      el.spotlightBrandBadge.textContent = vehicle.Brand;
+      el.spotlightTitle.textContent = `${vehicle.Model} (${vehicle.Generation_Years})`;
+      el.spotlightSubtitle.textContent = `Markets: ${vehicle.Markets} • Click any position on the diagram or cards to inspect & copy`;
+
+      // Update SVG Hotspot active rings
+      document.querySelectorAll(".car-hotspot").forEach(group => {
+        const pos = group.getAttribute("data-pos");
+        const isSelected = pos === state.selectedPositionKey;
+        if (isSelected) {
+          group.classList.add("bulb-node-active");
+          group.style.opacity = "1";
+        } else {
+          group.classList.remove("bulb-node-active");
+          group.style.opacity = "0.78";
+        }
+      });
+
+      // Update Selected Position Callout below SVG
+      const posObj = BULB_POSITIONS.find(p => p.key === state.selectedPositionKey) || BULB_POSITIONS[0];
+      const bulbSpec = vehicle[posObj.key];
+      const techInfo = classifyBulbTech(bulbSpec);
+
+      el.calloutPosLabel.textContent = posObj.label;
+      el.calloutTechBadge.textContent = techInfo.label;
+      el.calloutTechBadge.className = `px-2 py-0.5 rounded-md text-[10px] font-bold border ${techInfo.badgeClass}`;
+      el.calloutBulbCode.textContent = bulbSpec;
+      el.calloutTechNote.textContent = techInfo.note;
+
+      // Render 2x4 Grid of Position Cards
+      el.spotlightGrid.innerHTML = BULB_POSITIONS.map(pos => {
+        const val = vehicle[pos.key];
+        const info = classifyBulbTech(val);
+        const active = pos.key === state.selectedPositionKey;
+        return `
+          <div data-pos-card="${pos.key}" class="cursor-pointer rounded-xl p-3.5 border transition-all flex items-center justify-between gap-2.5 ${
+            active
+              ? "bg-amber-500/10 dark:bg-amber-500/15 border-amber-500 shadow-sm"
+              : "bg-white dark:bg-slate-900/90 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+          }">
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[11px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">${pos.short}</span>
+                <span class="px-1.5 py-0.2 rounded text-[10px] font-semibold border ${info.badgeClass}">${info.label}</span>
+              </div>
+              <div class="font-mono text-sm font-extrabold text-slate-900 dark:text-white truncate mt-1">
+                ${escapeHtml(val)}
+              </div>
+            </div>
+            <button type="button" data-copy-val="${escapeHtml(val)}" data-copy-label="${escapeHtml(vehicle.Brand + ' ' + vehicle.Model + ' ' + pos.short)}" title="Copy bulb code" class="copy-mini-btn flex-shrink-0 p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Render Main Results (Cards Grid & Full Table)
+    function renderResults() {
+      const filtered = getFilteredData();
+      const total = filtered.length;
+      const q = state.search.trim();
+
+      // If user narrowed down to 1 exact vehicle (or current spotlight is outside filtered set), auto-sync spotlight
+      if (total > 0) {
+        const isCurrentInFiltered = filtered.some(r => r._idx === state.selectedVehicleIndex);
+        if (!isCurrentInFiltered || total === 1) {
+          state.selectedVehicleIndex = filtered[0]._idx;
+        }
+      }
+      renderSpotlight();
+
+      // Update counts & summary
+      el.resultsCountBadge.textContent = `${total} ${total === 1 ? "match" : "matches"}`;
+      const activeParts = [];
+      if (state.brand) activeParts.push(state.brand);
+      if (state.model) activeParts.push(state.model);
+      if (state.year) activeParts.push(`Year ${state.year}`);
+      if (state.market !== "ALL") activeParts.push(`${state.market} Market`);
+      if (state.tech !== "ALL") activeParts.push(`${state.tech} Filter`);
+      if (q) activeParts.push(`"${q}"`);
+
+      el.activeFilterSummary.textContent = activeParts.length
+        ? `Filtered by: ${activeParts.join(" • ")}`
+        : `Showing all ${BULB_DATA.length} vehicle generations`;
+
+      if (total === 0) {
+        el.cardsContainer.classList.add("hidden");
+        el.tableContainer.classList.add("hidden");
+        el.paginationBar.classList.add("hidden");
+        el.emptyState.classList.remove("hidden");
+        return;
+      }
+
+      el.emptyState.classList.add("hidden");
+      const slice = filtered.slice(0, state.visibleLimit);
+
+      // Pagination info
+      if (slice.length < total) {
+        el.paginationBar.classList.remove("hidden");
+        el.paginationInfo.textContent = `Showing 1–${slice.length} of ${total} matching vehicles`;
+        el.btnLoadMore.classList.remove("hidden");
+        el.btnShowAll.classList.remove("hidden");
+      } else {
+        el.paginationBar.classList.remove("hidden");
+        el.paginationInfo.textContent = `Showing all ${total} matching vehicles`;
+        el.btnLoadMore.classList.add("hidden");
+        el.btnShowAll.classList.add("hidden");
+      }
+
+      // Render Card View
+      if (state.view === "cards") {
+        el.cardsContainer.classList.remove("hidden");
+        el.tableContainer.classList.add("hidden");
+
+        el.cardsContainer.innerHTML = slice.map(row => {
+          const isInspected = row._idx === state.selectedVehicleIndex;
+          return `
+            <article data-vehicle-idx="${row._idx}" class="vehicle-card cursor-pointer rounded-2xl bg-white dark:bg-slate-900 border ${
+              isInspected
+                ? "border-amber-500 ring-2 ring-amber-500/20"
+                : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+            } shadow-sm hover:shadow-md transition-all p-4 flex flex-col justify-between gap-3.5">
+              <!-- Card Header -->
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      ${highlightMatch(row.Brand, q)}
+                    </span>
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400">
+                      ${escapeHtml(row.Generation_Years)}
+                    </span>
+                  </div>
+                  <h4 class="text-base font-extrabold text-slate-900 dark:text-white mt-1">
+                    ${highlightMatch(row.Model, q)}
+                  </h4>
+                </div>
+                <span class="px-2 py-1 rounded-lg text-[10px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20 text-right">
+                  ${highlightMatch(row.Markets, q)}
+                </span>
+              </div>
+
+              <!-- 2x4 Bulb Spec Grid -->
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                ${BULB_POSITIONS.map(pos => {
+                  const val = row[pos.key];
+                  const tech = classifyBulbTech(val);
+                  return `
+                    <div class="rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/70 dark:border-slate-800/80 px-2.5 py-2">
+                      <div class="flex items-center justify-between gap-1">
+                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 truncate">${pos.short}</span>
+                        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                          tech.type === "LED" ? "bg-sky-400" :
+                          tech.type === "HID" ? "bg-violet-400" :
+                          tech.type === "HYBRID" ? "bg-emerald-400" :
+                          tech.type === "HALOGEN" ? "bg-amber-400" : "bg-slate-500"
+                        }"></span>
+                      </div>
+                      <div class="font-mono text-xs font-bold text-slate-900 dark:text-slate-100 truncate mt-0.5" title="${escapeHtml(val)}">
+                        ${highlightMatch(val, q)}
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+
+              <!-- Card Footer -->
+              <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                <span>${isInspected ? "Active in Spotlight Diagram" : "Click to inspect on diagram"}</span>
+                <span class="font-semibold text-sky-600 dark:text-sky-400">Inspect →</span>
+              </div>
+            </article>
+          `;
+        }).join("");
+      } else {
+        // Render Table View
+        el.cardsContainer.classList.add("hidden");
+        el.tableContainer.classList.remove("hidden");
+
+        el.tableBody.innerHTML = slice.map(row => {
+          const isInspected = row._idx === state.selectedVehicleIndex;
+          return `
+            <tr data-vehicle-idx="${row._idx}" class="vehicle-row cursor-pointer transition-colors ${
+              isInspected
+                ? "bg-amber-500/10 dark:bg-amber-500/15"
+                : "hover:bg-slate-50 dark:hover:bg-slate-800/60"
+            }">
+              <td class="py-2.5 px-3 font-bold text-slate-900 dark:text-white whitespace-nowrap">${highlightMatch(row.Brand, q)}</td>
+              <td class="py-2.5 px-3 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">${highlightMatch(row.Model, q)}</td>
+              <td class="py-2.5 px-3 font-semibold text-amber-600 dark:text-amber-400 whitespace-nowrap">${escapeHtml(row.Generation_Years)}</td>
+              <td class="py-2.5 px-3 text-slate-500 dark:text-slate-400 whitespace-nowrap">${highlightMatch(row.Markets, q)}</td>
+              ${BULB_POSITIONS.map(pos => {
+                const val = row[pos.key];
+                const tech = classifyBulbTech(val);
+                return `
+                  <td class="py-2.5 px-3 font-mono whitespace-nowrap">
+                    <span class="inline-block px-2 py-0.5 rounded-md border text-[11px] font-semibold ${tech.badgeClass}">
+                      ${highlightMatch(val, q)}
+                    </span>
+                  </td>
+                `;
+              }).join("")}
+            </tr>
+          `;
+        }).join("");
+      }
+    }
+
+    // Export Filtered Data as CSV
+    function exportFilteredCSV() {
+      const filtered = getFilteredData();
+      if (!filtered.length) {
+        showToast("No records to export", "info");
+        return;
+      }
+      const headers = [
+        "Brand", "Model", "Generation_Years", "Start_Year", "End_Year", "Markets",
+        "Low_Beam", "High_Beam", "Fog_Light", "Front_Turn_Signal",
+        "Rear_Turn_Signal", "Brake_Tail_Light", "Reverse_Light", "License_Plate"
+      ];
+      const csvLines = [headers.join(",")];
+      filtered.forEach(row => {
+        const line = headers.map(h => `"${String(row[h]).replace(/"/g, '""')}"`).join(",");
+        csvLines.push(line);
+      });
+      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `car_bulb_guide_filtered_${filtered.length}_rows.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`Exported ${filtered.length} vehicle rows to CSV`);
+    }
+
+    // Reset all filters
+    function resetFilters() {
+      state.brand = "";
+      state.model = "";
+      state.year = "";
+      state.search = "";
+      state.market = "ALL";
+      state.tech = "ALL";
+      state.sort = "default";
+      state.visibleLimit = 36;
+
+      el.selectBrand.value = "";
+      updateModelDropdown();
+      el.selectYear.value = "";
+      el.inputSearch.value = "";
+      el.btnClearSearch.classList.add("hidden");
+      el.selectSort.value = "default";
+
+      // Reset pills styling
+      document.querySelectorAll(".market-pill").forEach(btn => {
+        const active = btn.getAttribute("data-market") === "ALL";
+        btn.className = active
+          ? "market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-amber-500 text-slate-950 shadow-sm"
+          : "market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+      });
+      document.querySelectorAll(".tech-pill").forEach(btn => {
+        const active = btn.getAttribute("data-tech") === "ALL";
+        btn.className = active
+          ? "tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-sky-600 text-white shadow-sm"
+          : "tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+      });
+
+      renderResults();
+      showToast("All filters reset", "info");
+    }
+
+    // Event Listeners Setup
+    function initEvents() {
+      el.selectBrand.addEventListener("change", () => {
+        state.brand = el.selectBrand.value;
+        state.visibleLimit = 36;
+        updateModelDropdown();
+        renderResults();
+      });
+
+      el.selectModel.addEventListener("change", () => {
+        state.model = el.selectModel.value;
+        state.visibleLimit = 36;
+        renderResults();
+      });
+
+      el.selectYear.addEventListener("change", () => {
+        state.year = el.selectYear.value;
+        state.visibleLimit = 36;
+        renderResults();
+      });
+
+      el.inputSearch.addEventListener("input", () => {
+        state.search = el.inputSearch.value;
+        state.visibleLimit = 36;
+        el.btnClearSearch.classList.toggle("hidden", !state.search);
+        renderResults();
+      });
+
+      el.btnClearSearch.addEventListener("click", () => {
+        state.search = "";
+        el.inputSearch.value = "";
+        el.btnClearSearch.classList.add("hidden");
+        renderResults();
+      });
+
+      // Market Pills
+      document.querySelectorAll(".market-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.market = btn.getAttribute("data-market");
+          state.visibleLimit = 36;
+          document.querySelectorAll(".market-pill").forEach(b => {
+            const active = b === btn;
+            b.className = active
+              ? "market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-amber-500 text-slate-950 shadow-sm"
+              : "market-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+          });
+          renderResults();
+        });
+      });
+
+      // Tech Pills
+      document.querySelectorAll(".tech-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.tech = btn.getAttribute("data-tech");
+          state.visibleLimit = 36;
+          document.querySelectorAll(".tech-pill").forEach(b => {
+            const active = b === btn;
+            b.className = active
+              ? "tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-sky-600 text-white shadow-sm"
+              : "tech-pill px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700";
+          });
+          renderResults();
+        });
+      });
+
+      // Sort
+      el.selectSort.addEventListener("change", () => {
+        state.sort = el.selectSort.value;
+        renderResults();
+      });
+
+      // View Mode Switcher
+      el.btnViewCards.addEventListener("click", () => {
+        state.view = "cards";
+        el.btnViewCards.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-950 text-slate-900 dark:text-white shadow-sm transition";
+        el.btnViewTable.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+        renderResults();
+      });
+
+      el.btnViewTable.addEventListener("click", () => {
+        state.view = "table";
+        el.btnViewTable.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-950 text-slate-900 dark:text-white shadow-sm transition";
+        el.btnViewCards.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+        renderResults();
+      });
+
+      // Pagination
+      el.btnLoadMore.addEventListener("click", () => {
+        state.visibleLimit += 36;
+        renderResults();
+      });
+
+      el.btnShowAll.addEventListener("click", () => {
+        state.visibleLimit = BULB_DATA.length;
+        renderResults();
+      });
+
+      // SVG Diagram Hotspots Click
+      document.querySelectorAll(".car-hotspot").forEach(group => {
+        group.addEventListener("click", () => {
+          state.selectedPositionKey = group.getAttribute("data-pos");
+          renderSpotlight();
+        });
+      });
+
+      // Spotlight 2x4 Grid Card Click & Copy Delegation
+      el.spotlightGrid.addEventListener("click", e => {
+        const copyBtn = e.target.closest(".copy-mini-btn");
+        if (copyBtn) {
+          e.stopPropagation();
+          copyTextToClipboard(copyBtn.getAttribute("data-copy-val"), copyBtn.getAttribute("data-copy-label"));
+          return;
+        }
+        const card = e.target.closest("[data-pos-card]");
+        if (card) {
+          state.selectedPositionKey = card.getAttribute("data-pos-card");
+          renderSpotlight();
+        }
+      });
+
+      // Copy Selected Bulb Button
+      el.btnCopySelectedBulb.addEventListener("click", () => {
+        const vehicle = BULB_DATA[state.selectedVehicleIndex] || BULB_DATA[0];
+        const posObj = BULB_POSITIONS.find(p => p.key === state.selectedPositionKey) || BULB_POSITIONS[0];
+        copyTextToClipboard(vehicle[posObj.key], `${vehicle.Brand} ${vehicle.Model} ${posObj.short}`);
+      });
+
+      // Copy All 8 Bulbs Summary
+      el.btnCopyAllSpecs.addEventListener("click", () => {
+        const v = BULB_DATA[state.selectedVehicleIndex] || BULB_DATA[0];
+        const summary = `${v.Brand} ${v.Model} (${v.Generation_Years}) [${v.Markets}]\n` +
+          BULB_POSITIONS.map(p => `• ${p.short}: ${v[p.key]}`).join("\n");
+        copyTextToClipboard(summary, "Copied full vehicle bulb list");
+      });
+
+      // Vehicle Card or Table Row Click -> Inspect in Spotlight
+      el.cardsContainer.addEventListener("click", e => {
+        const card = e.target.closest(".vehicle-card");
+        if (card) {
+          state.selectedVehicleIndex = parseInt(card.getAttribute("data-vehicle-idx"), 10);
+          renderResults();
+          document.getElementById("spotlight-section").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      });
+
+      el.tableBody.addEventListener("click", e => {
+        const row = e.target.closest(".vehicle-row");
+        if (row) {
+          state.selectedVehicleIndex = parseInt(row.getAttribute("data-vehicle-idx"), 10);
+          renderResults();
+          document.getElementById("spotlight-section").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      });
+
+      // Header Actions
+      el.btnExportCsv.addEventListener("click", exportFilteredCSV);
+      el.btnPrint.addEventListener("click", () => window.print());
+      el.btnResetAll.addEventListener("click", resetFilters);
+      el.btnEmptyReset.addEventListener("click", resetFilters);
+
+      // Theme Toggle
+      el.btnThemeToggle.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+      });
+
+      // Cross-Reference Legend Modal
+      el.btnLegend.addEventListener("click", () => {
+        el.legendModal.classList.remove("hidden");
+        el.legendModal.classList.add("flex");
+      });
+      el.btnCloseLegend.addEventListener("click", () => {
+        el.legendModal.classList.add("hidden");
+        el.legendModal.classList.remove("flex");
+      });
+      el.legendModal.addEventListener("click", e => {
+        if (e.target === el.legendModal) {
+          el.legendModal.classList.add("hidden");
+          el.legendModal.classList.remove("flex");
+        }
+      });
+    }
+
+    // Initialize App on Load
+    window.addEventListener("DOMContentLoaded", () => {
+      populateSelectors();
+      initEvents();
+      renderResults();
+    });
+  </script>
+</body>
+</html>
